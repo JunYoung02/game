@@ -18,4 +18,4 @@ void StartGame()
     gotoxy(6, 18); printf("                  ■■      ■■                 ■■■■■■■■                                                     ■■            ■■                ");
     gotoxy(6, 19); printf("                    ■■  ■■                   ■■■■■■■■                                                     ■■■■■■■■■■                 ");
     gotoxy(6, 20); printf("                      ■■■                                                                                          ■■■■■■■■■■");
-} 
+}  
