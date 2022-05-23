@@ -9,6 +9,12 @@ void gotoxy(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
  
+ void chcolor(int co)		// 글자 색 입히기, co에 원하는 색 입력
+{
+	
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+ 
 void StartGame()        // 게임 시작 화면
 {
     gotoxy(6, 3); printf("              ■                 ■■    ■■■■■■■■         ■■             ■■■           ■■           ■■■■■■■■■■    ■■");
