@@ -1,0 +1,112 @@
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+#define Space 32    // 스페이스바의 아스키코드 32
+#define WHITE 15   // 글자 흰색 15
+#define RED 12      // 글자 빨간색 12
+
+void gotoxy(int x, int y) {
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)		// 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void StartGame()        // 게임 시작 화면
+{
+    gotoxy(6, 3);  printf("              ■                 ■■    ■■■■■■■■         ■■             ■■■           ■■           ■■■■■■■■■■    ■■");
+    gotoxy(6, 4);  printf("            ■■■               ■■    ■■■■■■■■         ■■           ■■  ■■         ■■           ■■■■■■■■■■    ■■");
+    gotoxy(6, 5);  printf("          ■■  ■■             ■■                ■■   ■■■■■         ■■      ■■       ■■           ■■                    ■■    ");
+    gotoxy(6, 6);  printf("        ■■      ■■     ■■■■■                ■■   ■■■■■       ■■          ■■     ■■           ■■■■■■■■■■    ■■");
+    gotoxy(6, 7);  printf("      ■■          ■■   ■■■■■                ■■         ■■     ■■              ■■   ■■           ■■■■■■■■■■    ■■■■■■");
+    gotoxy(6, 8);  printf("    ■■              ■■       ■■                ■■   ■■■■■       ■■          ■■     ■■           ■■                    ■■■■■■");
+    gotoxy(6, 9);  printf("  ■■                  ■■     ■■                ■■   ■■■■■         ■■      ■■       ■■           ■■■■■■■■■■    ■■");
+    gotoxy(6, 10);printf("                                 ■■                ■■         ■■           ■■  ■■         ■■           ■■■■■■■■■■    ■■");
+    gotoxy(6, 11);printf("                                 ■■                             ■■             ■■■           ■■                                   ■■");
+    gotoxy(6, 12);printf("                      ■■■                     ■■■■■■■■                                   ■■              ■■            ■■ ■■");
+    gotoxy(6, 13);printf("                    ■■  ■■                   ■■■■■■■■                                   ■■              ■■            ■■              ");
+    gotoxy(6, 14);printf("                  ■■      ■■                             ■■           ■■■■■■■■■■■■■■              ■■            ■■              ");
+    gotoxy(6, 15);printf("                ■■          ■■               ■■■■■■■■           ■■■■■■■■■■■■■■              ■■■■■■■■■■              ");
+    gotoxy(6, 16);printf("              ■■              ■■             ■■■■■■■■                                   ■■              ■■■■■■■■■■               ");
+    gotoxy(6, 17);printf("                ■■          ■■               ■■                                               ■■              ■■            ■■           ");
+    gotoxy(6, 18);printf("                  ■■      ■■                 ■■■■■■■■                                                     ■■            ■■                ");
+    gotoxy(6, 19);printf("                    ■■  ■■                   ■■■■■■■■                                                     ■■■■■■■■■■                 ");
+    gotoxy(6, 20);printf("                      ■■■                                                                                          ■■■■■■■■■■");
+
+    gotoxy(60, 40); printf("-계속 진행하려면 [스페이스바]를 누르세요-");
+}
+
+void GameSelect()       // 게임 모드 선택
+{
+    gotoxy(7, 3); printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■                   ■                ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(7, 4); printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■                 ■■■              ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(7, 5); printf("  ■■                    ■■       ■■                                       ■■  ■■            ■■     ■■                        ■■    ■■");
+    gotoxy(7, 6); printf("  ■■                    ■■       ■■                                     ■■      ■■    ■■■■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(7, 7); printf("  ■■                    ■■       ■■                                   ■■          ■■  ■■■■■     ■■■■■■■■■■■■    ■■■■■■");
+    gotoxy(7, 8); printf("  ■■                    ■■       ■■                                 ■■              ■■      ■■     ■■                        ■■■■■■");
+    gotoxy(7, 9); printf("  ■■                    ■■       ■■                               ■■                  ■■    ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(7, 10); printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■     ■■                      ■■  ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(7, 11); printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■                                     ■■                                 ■■    ■■");
+    gotoxy(7, 12); printf("              ■■                                                                ■■                ■■                                  ");
+    gotoxy(7, 13); printf("              ■■                                                                ■■                                ■■■■■■■■■■■■   ");
+    gotoxy(7, 14); printf("              ■■                                                                ■■                                ■■■■■■■■■■■■    ");
+    gotoxy(7, 15); printf("              ■■                                                                ■■                                                    ■■");
+    gotoxy(7, 16); printf("              ■■                                                                ■■                                                    ■■");
+    gotoxy(7, 17); printf("              ■■                                                                ■■                                                    ■■");
+    gotoxy(7, 18); printf("■■■■■■■■■■■■■■■■■  ■■■■■■■■■■■■■■■■              ■■■■■■■■■■■■■                              ■■");
+    gotoxy(7, 19); printf("■■■■■■■■■■■■■■■■■  ■■■■■■■■■■■■■■■■              ■■■■■■■■■■■■■                              ■■");
+
+    gotoxy(70, 30); printf("1. 게임 아이디 생성 후 게임 시작");
+    gotoxy(70, 35); printf("2. 게임 이어서 하기");
+    gotoxy(70, 40); printf("-[1] 또는 [2] 를 입력해주세요-\n");
+
+}
+int main()
+{
+    int i;
+    char kb;
+
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+    chcolor(WHITE);         // 글자 색을 흰 색으로 변경
+    StartGame();        // 게임 시작 화면 출력
+
+    kb = _getch();
+    if (kb == Space)        // 입력 받은 키가 스페이스바면 화면 전환
+    {
+        system("cls");      // 화면 지우기
+        GameSelect();
+    }
+    
+    kb = _getch();
+    if (kb == '1')      // 게임 아이디 생성 후 시작 
+    {
+        for (i = 0; i < 50; i++)        // 빨간 색을 비처럼 내리게 출력 후 화면 전환
+        {
+            chcolor(RED);
+            gotoxy(0, i); printf("■■     ■■ ■■       ■■  ■■■     ■■■     ■■■     ■■              ■■          ■       ■       ■■      ■■■ ■   ■■  ■   ■■          ■■  ■");
+            Sleep(100);
+        }
+        chcolor(WHITE);
+        system("cls");
+        printf("1번 입력");
+    }
+    else if (kb == '2')     // 이전 게임 이어서 하기
+    {
+        for (i = 0; i < 50; i++)        // 빨간 색을 비처럼 내리게 출력 후 화면 전환
+        {
+            chcolor(RED);
+            gotoxy(0, i); printf("■■     ■■ ■■       ■■  ■■■     ■■■     ■■■     ■■              ■■          ■       ■       ■■      ■■■ ■   ■■  ■   ■■          ■■  ■");
+            Sleep(100);
+        }
+        chcolor(WHITE);
+        system("cls");
+        printf("2번 입력");
+    }
+
+}
