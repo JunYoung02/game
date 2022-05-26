@@ -90,13 +90,13 @@ void drop()     // 재림관에서 3명의 자살 사건
 {
     int i = 0;
     chcolor(WHITE);
-    
-    chcolor(GRAY);
-    gotoxy(88, 10); man1();
-    gotoxy(86, 12); man2();
-    gotoxy(84, 14); man3();
 
-    
+    chcolor(GRAY);
+    gotoxy(88, 10); printf("옷");
+    gotoxy(86, 12); printf("옷");
+    gotoxy(84, 14); printf("옷");
+
+
     while (1)
     {
         system("cls");
@@ -108,7 +108,7 @@ void drop()     // 재림관에서 3명의 자살 사건
         gotoxy(84, 14 + i); printf("옷");
 
         Sleep(100);
- 
+
         i++;
         if (i == 34)
             break;
@@ -116,7 +116,7 @@ void drop()     // 재림관에서 3명의 자살 사건
     system("cls");
     GameSet();
     intro();
-    
+
     chcolor(RED);
     gotoxy(91, 41); printf("▦");
     gotoxy(90, 42); printf("▦▦");
@@ -130,7 +130,7 @@ void drop()     // 재림관에서 3명의 자살 사건
 }
 
 int main()
-{
+{ 
     char kb;
     system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
 
