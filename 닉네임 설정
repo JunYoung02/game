@@ -1,0 +1,316 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <conio.h>
+#include <time.h>
+#include <Windows.h>
+
+#define length 10                // 아이디와 비밀번호 length로 함
+
+typedef struct data {            // 아이디와 비밀번호, 닉네임를 담을 구조체 선언
+    char id[length + 1];         // NULL을 마지막에 들어가기 때문에 +1을 한다
+    char pw[length + 1];
+    char user[length + 1];
+}D;
+
+D member[1];        // 하나의 구조체 member로 설정.
+
+int i = 0;
+FILE* fp;          // 파일 포인터를 전역 변수로 설정하여 모든 함수에서 활용할 수 있도록 함.
+
+void join();       // id 만드는 함수
+void join2();      // password 만드는 함수
+void introduce();  // 회원가입 안내사항
+int login(char id[], char pw[]);      // id 로그인
+void login_main();      // login화면
+void make_username();   // 닉네임 만드는 함수
+
+void story();           // story1 화면
+
+
+void introduce()        // 회원가입 안내사항
+{
+    printf("<회원가입 유의사항>\n\n");
+    printf("1. 아이디와 비밀번호의 길이는 10자이내로 합니다.\n");
+    printf("2. 아이디와 비밀번호는 소문자와 숫자의 조합으로 합니다.\n");
+    printf("3. 띄어쓰기는 불가능 합니다.\n\n");
+}
+
+void join()   // id 만드는 함수
+{
+    char* str;
+
+rute:
+
+    printf("아이디를 입력하시오 : __________\b\b\b\b\b\b\b\b\b\b");
+    scanf_s("%s", member->id, sizeof(member->id));          // member.id에 저장됨.
+
+    str = member->id;                                       // member.id를 str에 옮김.
+
+    if (strlen(str) == 0)                                   // 글자수 검사
+    {
+        printf("글자수를 초과하였습니다.\n");
+        goto rute;
+    }
+
+    for (i = 0; i < strlen(str); i++)                       // 소문자나 숫자의 검사
+    {
+        if (isdigit(*(str + i)) == 0 && islower(*(str + i)) == 0)
+        {
+            printf("소문자나 숫자의 조합이 아닙니다.\n");
+            goto rute;
+        }
+    }
+}
+
+void join2()   // password 만드는 함수
+{
+    char* str2;
+
+rute:
+
+    printf("비밀번호를 입력하시오 : __________\b\b\b\b\b\b\b\b\b\b");
+    scanf_s("%s", member->pw, sizeof(member->pw));         // member.pw에 저장됨.
+
+    str2 = member->pw;
+
+    if (strlen(str2) == 0)                           // 글자수 검사
+    {
+        printf("글자수를 초과하였습니다.\n");
+        goto rute;
+    }
+
+    for (i = 0; i < strlen(str2); i++)                  // 소문자나 숫자의 검사
+    {
+        if (isdigit(*(str2 + i)) == 0 && islower(*(str2 + i)) == 0)
+        {
+            printf("소문자나 숫자의 조합이 아닙니다.\n");
+            goto rute;
+        }
+    }
+}
+
+void login_main()       // login 화면
+{
+    int key;
+    char id[length + 1];    // id 입력
+    char pw[length + 1];    // password 입력
+
+    int i = 1;
+    int j = 1;
+    while (1)
+    {
+        printf("<sungkuyl of top 로그인>\n");
+        printf("로그인 시도 횟수 : %d\n\n", j);
+        printf("아이디 : ");
+        scanf_s("%s", id, sizeof(id));
+        printf("비밀번호 : ");
+        scanf_s("%s", pw, sizeof(pw));
+        printf("\n");
+
+        key = login(id, pw);
+
+        i++;
+        j++;
+
+        if (key == 2)
+        {
+            errno_t err;;
+            err = fopen_s(&fp, member->id, "wt");    // member.id를 토대로 앞으로 세이브할 파일을 생성. 
+
+            if (fp == NULL)
+            {
+                printf("파일 생성에 실패하였습니다.\n");
+                printf("프로그램을 다시 실행하십시오.\n");
+                exit(1);
+            }
+            break;
+
+        }
+
+        if (i == 6)
+        {
+            printf("로그인 시도를 %d회이상 하였으므로\n", j - 1);
+            printf("30초후에 다시 시도하십시오.\n");
+            i = 1;
+            Sleep(30000);
+        }
+    }
+
+}
+
+int login(char id[], char pw[])             // 로그인 체크
+{
+    if (strcmp(id, member->id) == 0 && strcmp(pw, member->pw) == 0)
+    {
+        printf("\n로그인이 완료 되었습니다!\n\n");
+        return 2;
+    }
+
+    else
+    {
+        printf("로그인에 실패하였습니다!\n\n");
+        return 3;
+    }
+}
+
+void story()
+{
+    char* str;
+    str = "2023년 4월 13일 목요일 성결대학교";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        if (i <= 16)
+        {
+            printf("%c", *(str + i));
+            //Sleep(100);
+        }
+        if (i >= 17)
+        {
+            printf("%c", *(str + i));
+        }
+    }
+
+    printf("\n\n");
+    str = "사건 시간 : 4월 10일 21시";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", *(str + i));
+        //Sleep(100);
+    }
+
+    printf("\n\n");
+    str = "사건 장소 : 재림관 1층";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", *(str + i));
+        //Sleep(100);
+    }
+    printf("\n");
+
+    _getch();
+    system("cls");
+
+    str = "재림관 옥상에서 정보통신공학과 학우들의 의문의 단체자살 사건이 일어난다";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", *(str + i));
+        //Sleep(100);
+    }
+    printf("\n");
+
+    _getch();
+    system("cls");
+
+    str = "죽은 사람은 총 3명으로 모두 옥상에서 떨어져 끔찍한 몰골로 죽었다.";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", *(str + i));
+        //Sleep(100);
+    }
+    printf("\n");
+
+    _getch();
+    system("cls");
+
+    str = "그곳에는 너무 가혹한 프로그래밍언어(1) 수업으로 인하여 자살한다는 유서가 적혀 있었다.";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", *(str + i));
+        //Sleep(100);
+    }
+    printf("\n");
+}
+
+void make_username()       // 닉네임 만드는 함수
+{
+    char uname[100] = { "" };             // 닉네임을 임시 저장할 포인터 변수
+    char s;                               // 입력한 키를 받을 변수
+    int k = 0;                            // 닉네임이 소문자로만 이루어져있을때 주는 키 값
+    printf("억울한 누명을 해결하겠습니까?(Y or N)\n");
+    s = _getch();                         // 키를 입력 받고 s변수에 저장
+    if (s == 'y' || s == 'Y')
+    {
+        printf("<주의사항>\n\n");
+        printf("-이름은 소문자만 사용가능.\n");
+        printf("-이름은 10글자 내외로 설정합니다.\n\n");
+
+    user:
+        printf("학생의 이름을 설정하십시오 : ");
+        scanf_s("%s", uname, sizeof(uname));
+
+        if ((int)strlen(uname) > 10)              // 설정한 이름의 길이가 10보다 큰 지 확인
+        {
+            printf("이름의 길이가 10글자가 넘습니다.\n\n");
+
+            goto user;                      
+        }
+
+        for (i = 0; i < strlen(uname); i++)       // 설정한 이름의 길이 만큼 for문 
+        {
+            if ((int)islower(*(uname + i)) == 0)    // 설정한 이름의 인덱스를 하나하나 조사하여 소문자인지 확인, 소문자가 아닌 경우 0을 반환
+            {
+                printf("이름은 영문 소문자로만 가능합니다.\n\n");
+                goto user;
+            }
+        }
+
+        for (i = 0; i < strlen(uname); i++)
+        {
+            if ((int)islower(*(uname + i)) != 0)
+            {
+                 k = 789;           // 소문자로만 이루어져 있을때 키을 지정.
+            }
+        }
+        if ((int)strlen(uname) <= 10)
+        {
+            if (k == 789)
+            {
+                printf("\n이름을 \"%s\" 으로 설정하시겠습니까?(Y / N)\n", uname);
+                s = _getch();
+                if (s == 'Y' || s == 'y')
+                {
+                    system("cls");
+                    strcpy_s(member->user, sizeof(member->user), uname);      // str값을 구초제 member.user에 저장
+                    printf("\"%s\"으로 닉네임이 설정되었습니다.\n\n", member->user);
+                    printf("사건 현장으로 되돌아갑니다.\n");
+                }
+            }
+        }
+    }
+    s = _getch();
+    if (s == 'N' || s == 'n')
+    {
+        printf("무기징역을 선고합니다. 게임하지마세요~\n");
+        fclose(fp);
+        exit(1);
+    }
+}
+
+int main()
+{
+    introduce();
+    join();
+    join2();
+
+    printf("\"%s\" 님의 회원가입이 완료되었습니다.\n\n", member->id);
+    printf("로그인을 하려면 키를 입력하시오\n");
+
+    _getch();
+    system("cls");
+
+    login_main();
+    _getch();
+    system("cls");
+
+    story();
+    _getch();
+    system("cls");
+
+    make_username();
+    _getch();
+    system("cls");
+
+    return 0;
+}
