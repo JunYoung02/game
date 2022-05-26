@@ -5,6 +5,7 @@
 
 #define Space 32    // 스페이스바의 아스키코드 
 #define DARKBLUE 1      // 글자 다크 블루 1
+#define GRAY 7      // 글자 그레이 7
 #define DARKGRAY 8 // 글자 다크 그레이 8
 #define RED 12      // 글자 빨간색 12
 #define PURPLE 13   // 글자 보라색 13
@@ -20,7 +21,7 @@ void GameSelect();       // 게임 모드 선택
 void RedRain();         // 빨간색 비 출력 
 void bouns();       // 보너스 게임
 
-void intro()   // 게임 인트로
+void intro()   // 게임 인트로 (재림관)
 {
     chcolor(WHITE);
     gotoxy(7, 8);  printf("          ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
@@ -34,8 +35,8 @@ void intro()   // 게임 인트로
     gotoxy(7, 16); printf("  ■                                                                         ■       ■");
     gotoxy(7, 17); printf(" ■                                                                         ■        ■");
     gotoxy(7, 18); printf("■                                                                         ■         ■");
-    gotoxy(7, 19); printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■          ■"); 
-    gotoxy(7, 20); printf("■                                                                        ■          ■"); 
+    gotoxy(7, 19); printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■          ■");
+    gotoxy(7, 20); printf("■                                                                        ■          ■");
     gotoxy(7, 21); printf("■                                                                        ■          ■");
     gotoxy(7, 22); printf("■                                                                        ■          ■");
     gotoxy(7, 23); printf("■                                                                        ■          ■");
@@ -70,7 +71,7 @@ void intro()   // 게임 인트로
     gotoxy(10, 23); printf("     ■ ■      ■    ■    ■■■■■■  ■             ■  ■■■");
     gotoxy(10, 24); printf("    ■   ■     ■    ■    ■            ■       ■    ■  ■");
     gotoxy(10, 25); printf("   ■     ■    ■■■■    ■■■■■■  ■       ■        ■");
-    gotoxy(10, 26); printf("  ■       ■   ■    ■                  ■   ■■■■■■■■");  
+    gotoxy(10, 26); printf("  ■       ■   ■    ■                  ■   ■■■■■■■■");
     gotoxy(10, 27); printf(" ■         ■  ■    ■     ■■■■■■              ■");
     gotoxy(10, 28); printf("                ■    ■     ■        ■              ■");
     gotoxy(10, 29); printf("                ■    ■     ■■■■■■              ■■■■■■■");
@@ -85,6 +86,49 @@ void intro()   // 게임 인트로
     gotoxy(40, 46); printf("■        ■");
 }
 
+void drop()     // 재림관에서 3명의 자살 사건
+{
+    int i = 0;
+    chcolor(WHITE);
+    
+    chcolor(GRAY);
+    gotoxy(88, 10); man1();
+    gotoxy(86, 12); man2();
+    gotoxy(84, 14); man3();
+
+    
+    while (1)
+    {
+        system("cls");
+        GameSet();
+        intro();
+        chcolor(GRAY);
+        gotoxy(88, 10 + i); printf("옷");
+        gotoxy(86, 12 + i); printf("옷");
+        gotoxy(84, 14 + i); printf("옷");
+
+        Sleep(100);
+ 
+        i++;
+        if (i == 34)
+            break;
+    }
+    system("cls");
+    GameSet();
+    intro();
+    
+    chcolor(RED);
+    gotoxy(91, 41); printf("▦");
+    gotoxy(90, 42); printf("▦▦");
+    gotoxy(89, 43); printf("▦▦▦");
+    gotoxy(88, 44); printf("▦▦▦▦");
+    gotoxy(87, 45); printf("▦▦▦▦▦");
+    gotoxy(86, 46); printf("▦▦▦▦▦▦");
+    gotoxy(85, 47); printf("▦▦▦▦▦▦▦");
+
+    chcolor(WHITE);
+}
+
 int main()
 {
     char kb;
@@ -92,9 +136,10 @@ int main()
 
 
     GameSet();          // 게임 테두리 출력
-    
+
     intro();
 
+    drop();
     kb = _getch();
     system("cls");
 }
