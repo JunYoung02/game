@@ -1,0 +1,129 @@
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+#define Space 32    // 스페이스바의 아스키코드 
+#define DARKBLUE 1      // 글자 다크 블루 1
+#define DARKGRAY 8 // 글자 다크 그레이 8
+#define RED 12      // 글자 빨간색 12
+#define PURPLE 13   // 글자 보라색 13
+#define YELLOW 14   // 글자 노란색 14
+#define WHITE 15   // 글자 흰색 15
+
+
+void gotoxy(int x, int y);   // 좌표 설정 함수
+void chcolor(int co);		// 글자 색 입히기, co에 원하는 색 입력
+void GameSet();         // 게임 테두리 ㅁ
+void StartGame();        // 게임 시작 화면
+void GameSelect();       // 게임 모드 선택
+void RedRain();         // 빨간색 비 출력 
+void bouns();       // 보너스 게임
+
+void intro()   // 게임 인트로
+{
+    chcolor(WHITE);
+    gotoxy(7, 8);  printf("          ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+    gotoxy(7, 9);  printf("         ■                                                                         ■■");
+    gotoxy(7, 10); printf("        ■                                                                         ■ ■");
+    gotoxy(7, 11); printf("       ■                                                                         ■  ■");
+    gotoxy(7, 12); printf("      ■                                                                         ■   ■");
+    gotoxy(7, 13); printf("     ■                                                                         ■    ■");
+    gotoxy(7, 14); printf("    ■                                                                         ■     ■");
+    gotoxy(7, 15); printf("   ■                                                                         ■      ■");
+    gotoxy(7, 16); printf("  ■                                                                         ■       ■");
+    gotoxy(7, 17); printf(" ■                                                                         ■        ■");
+    gotoxy(7, 18); printf("■                                                                         ■         ■");
+    gotoxy(7, 19); printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■          ■"); 
+    gotoxy(7, 20); printf("■                                                                        ■          ■"); 
+    gotoxy(7, 21); printf("■                                                                        ■          ■");
+    gotoxy(7, 22); printf("■                                                                        ■          ■");
+    gotoxy(7, 23); printf("■                                                                        ■          ■");
+    gotoxy(7, 24); printf("■                                                                        ■          ■");
+    gotoxy(7, 25); printf("■                                                                        ■          ■");
+    gotoxy(7, 26); printf("■                                                                        ■          ■");
+    gotoxy(7, 27); printf("■                                                                        ■          ■");
+    gotoxy(7, 28); printf("■                                                                        ■          ■");
+    gotoxy(7, 29); printf("■                                                                        ■          ■");
+    gotoxy(7, 30); printf("■                                                                        ■          ■");
+    gotoxy(7, 31); printf("■                                                                        ■          ■");
+    gotoxy(7, 32); printf("■                                                                        ■          ■");
+    gotoxy(7, 33); printf("■                                                                        ■          ■");
+    gotoxy(7, 34); printf("■                                                                        ■          ■");
+    gotoxy(7, 35); printf("■                                                                        ■          ■");
+    gotoxy(7, 36); printf("■                                                                        ■          ■");
+    gotoxy(7, 37); printf("■                                                                        ■          ■");
+    gotoxy(7, 38); printf("■                                                                        ■         ■");
+    gotoxy(7, 39); printf("■                                                                        ■        ■");
+    gotoxy(7, 40); printf("■                                                                        ■       ■");
+    gotoxy(7, 41); printf("■                                                                        ■      ■");
+    gotoxy(7, 42); printf("■                                                                        ■     ■");
+    gotoxy(7, 43); printf("■                                                                        ■    ■");
+    gotoxy(7, 44); printf("■                                                                        ■   ■");
+    gotoxy(7, 45); printf("■                                                                        ■  ■");
+    gotoxy(7, 46); printf("■                                                                        ■ ■");
+    gotoxy(7, 47); printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    chcolor(YELLOW);
+    gotoxy(10, 21); printf("■■■■■■■  ■    ■    ■■■■■■  ■   ■■■■■■  ■");
+    gotoxy(10, 22); printf("      ■        ■    ■              ■  ■             ■  ■");
+    gotoxy(10, 23); printf("     ■ ■      ■    ■    ■■■■■■  ■             ■  ■■■");
+    gotoxy(10, 24); printf("    ■   ■     ■    ■    ■            ■       ■    ■  ■");
+    gotoxy(10, 25); printf("   ■     ■    ■■■■    ■■■■■■  ■       ■        ■");
+    gotoxy(10, 26); printf("  ■       ■   ■    ■                  ■   ■■■■■■■■");  
+    gotoxy(10, 27); printf(" ■         ■  ■    ■     ■■■■■■              ■");
+    gotoxy(10, 28); printf("                ■    ■     ■        ■              ■");
+    gotoxy(10, 29); printf("                ■    ■     ■■■■■■              ■■■■■■■");
+
+    chcolor(DARKBLUE);
+    gotoxy(40, 40); printf("■■■■■■");
+    gotoxy(40, 41); printf("■        ■");
+    gotoxy(40, 42); printf("■        ■");
+    gotoxy(40, 43); printf("■        ■");
+    gotoxy(40, 44); printf("■        ■");
+    gotoxy(40, 45); printf("■        ■");
+    gotoxy(40, 46); printf("■        ■");
+}
+
+int main()
+{
+    char kb;
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+
+
+    GameSet();          // 게임 테두리 출력
+    
+    intro();
+
+    kb = _getch();
+    system("cls");
+}
+
+
+void gotoxy(int x, int y)   // 좌표 설정 함수
+{
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)		// 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void GameSet()
+{
+    int i;
+
+    chcolor(PURPLE);
+    gotoxy(3, 2);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    for (i = 3; i < 48; i++)
+    {
+        gotoxy(3, i); printf("■");
+        gotoxy(163, i); printf("■");
+    }
+
+    gotoxy(3, 48);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+}
