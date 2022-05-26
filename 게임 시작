@@ -126,7 +126,7 @@ void GameSelect()       // 게임 모드 선택
     gotoxy(70, 35); printf("2. 게임 이어서 하기");
     gotoxy(70, 40); printf("-[1] 또는 [2] 를 입력해주세요-\n");
 }
-
+ 
 void RedRain()      
 {
     int i;
