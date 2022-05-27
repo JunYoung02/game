@@ -1,0 +1,193 @@
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+#define Space 32    // 스페이스바의 아스키코드 
+#define DARKBLUE 1      // 글자 다크 블루 1
+#define DARKGREEN 2         // 글자 다크 그린
+#define GRAY 7      // 글자 그레이 7
+#define DARKGRAY 8 // 글자 다크 그레이 8
+#define RED 12      // 글자 빨간색 12
+#define PURPLE 13   // 글자 보라색 13
+#define YELLOW 14   // 글자 노란색 14
+#define WHITE 15   // 글자 흰색 15
+
+#define TRUE 1      // 참 1
+#define FALSE 0     // 거짓 0
+
+
+void gotoxy(int x, int y);   // 좌표 설정 함수
+void chcolor(int co);		// 글자 색 입히기, co에 원하는 색 입력
+void GameSet();         // 게임 테두리 
+void StartGame();        // 게임 시작 화면
+void GameSelect();       // 게임 모드 선택
+void RedRain();         // 빨간색 비 출력 
+void player();          // 캐릭터 그리기
+void stairs();  // 공룡게임 장애물 그리기
+void game1();   // 게임1 공룡 게임
+int gameover(int player, int stairs);    // 게임 오버
+
+void player(int y)      // 캐릭터 그리기
+{
+    chcolor(YELLOW);
+    gotoxy(12, 40 + y); printf("     ■■\n");
+    gotoxy(12, 41 + y); printf("   ■◑◐■\n");
+    gotoxy(12, 42 + y); printf("     ■■ \n");
+    chcolor(DARKBLUE);
+    gotoxy(12, 43 + y); printf("  ■■■■■\n");
+    chcolor(RED);
+    gotoxy(12, 44 + y); printf(" ■ ■■■ ■\n");
+    gotoxy(12, 45 + y); printf("■  ■■■  ■\n");
+    chcolor(DARKBLUE);
+    gotoxy(12, 46 + y); printf("    ■  ■\n");
+    gotoxy(12, 47 + y); printf("    ■  ■\n");
+}
+
+void stairs(int x)      // 장애물 출력
+{
+    chcolor(DARKGRAY);
+    gotoxy(140 - x, 43); printf("        ■");
+    gotoxy(140 - x, 44); printf("      ■■");
+    gotoxy(140 - x, 45); printf("    ■■■");
+    gotoxy(140 - x, 46); printf("  ■■■■");
+    gotoxy(140 - x, 47); printf("■■■■■");
+}
+
+
+void game1()
+{
+    int cnt = 0;
+    int isjump = 0, isdown = 0;
+    int x = 0, y = 0;
+    char keydown;    
+    int ispass;      // 충돌 확인
+
+    while (1)
+    {
+        if (gameover(y, x))
+        {
+            cnt = 0;
+        }
+        //player(y);     // 케릭터 초기 위치 40
+        if (_kbhit())   // 키보드를 눌렀는지 확인 , 눌렀으면 참, 안 눌렀으면 거짓
+        {
+            keydown = _getch();     
+            if (keydown == Space)       // 누른 키가 스페이스바일 경우 점프, 다른 키일 경우 변화 x
+            {
+                while (1)           // 플레이어 상승
+                {
+                    GameSet();
+                    stairs(x);
+                    if (x != 132)       // 장애물 출력
+                    {
+                        x++;
+                    }
+                    else
+                        x = 0;
+
+                    player(y);      
+                    y--;
+                    Sleep(10);
+                    system("cls");
+                    if (y == -12)
+                        break;
+                }
+                
+                while (1)       // 플레이어 하강
+                {
+                    
+                    GameSet();
+                    stairs(x);
+                    if (x != 132)       // 장애물 관련
+                    {
+                        x++;
+                    }
+                    else
+                        x = 0;
+
+                    player(y);
+                    Sleep(10);
+                    system("cls");
+                    y++;
+                    if (y == 0)
+                        break;
+                }
+                
+            }
+        }
+        if (x != 132)       // 장애물 관련
+        {
+        x++;
+        }
+        else
+            x = 0;
+     
+        chcolor(WHITE);
+        gotoxy(140, 5); printf("600달성시 게임 클리어");
+        gotoxy(140, 6); printf("현재 내 점수 : %d", cnt++);
+        if (cnt == 600)     // cnt가 600이 되면 게임 클리어
+        {
+            break;
+        }
+        GameSet();
+        player(y);
+        stairs(x);
+        Sleep(10);
+        system("cls");
+    }
+    system("cls");      // 게임 클리어시 여기로 빠져나옴
+    GameSet();
+    gotoxy(20, 20); printf("여기에 내용 이어서,,,");
+}
+
+int gameover(int player, int stairs)
+{
+    if (player <= 0 && player >= -7 && stairs >= 119 && stairs <= 132)      // 플레이어와 장애물의 충돌 범위 설정
+    {
+        return TRUE;
+    }
+    
+    return FALSE;
+}
+
+int main()
+{
+    char kb;
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+
+
+    GameSet();          // 게임 테두리 출력
+
+    game1();
+   
+}
+
+
+void gotoxy(int x, int y)   // 좌표 설정 함수
+{
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)		// 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void GameSet()      // 게임 테두리
+{
+    int i;
+
+    chcolor(PURPLE);
+    gotoxy(3, 2);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    for (i = 3; i < 48; i++)
+    {
+        gotoxy(3, i); printf("■");
+        gotoxy(163, i); printf("■");
+    }
+
+    gotoxy(3, 48);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+}
