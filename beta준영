@@ -1,0 +1,157 @@
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+#define Space 32    // 스페이스바의 아스키코드 
+#define DARKBLUE 1      // 글자 다크 블루 1
+#define DARKGREEN 2         // 글자 다크 그린
+#define GRAY 7      // 글자 그레이 7
+#define DARKGRAY 8 // 글자 다크 그레이 8
+#define RED 12      // 글자 빨간색 12
+#define PURPLE 13   // 글자 보라색 13
+#define YELLOW 14   // 글자 노란색 14
+#define WHITE 15   // 글자 흰색 15
+
+#define UP 72       
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
+
+
+void gotoxy(int x, int y);   // 좌표 설정 함수
+void chcolor(int co);		// 글자 색 입히기, co에 원하는 색 입력
+void GameSet();         // 게임 테두리 ㅁ
+void StartGame();        // 게임 시작 화면
+void GameSelect();       // 게임 모드 선택
+void RedRain();         // 빨간색 비 출력 
+void player();          // 캐릭터 그리기
+void jump();    // 공룡게임 점프 기능
+void stairs();  // 공룡게임 장애물 그리기
+void move();    // 장애물 움직이기
+
+
+void player(int y)      // 캐릭터 그리기
+{
+    chcolor(YELLOW);
+    gotoxy(8, y);     printf("       ■■\n");
+    gotoxy(8, y + 1); printf("     ■◑◐■\n");
+    gotoxy(8, y + 2); printf("       ■■ \n");
+    chcolor(DARKBLUE);
+    gotoxy(8, y + 3); printf("    ■■■■■\n");
+    chcolor(RED);
+    gotoxy(8, y + 4); printf("   ■ ■■■ ■\n");
+    gotoxy(8, y + 5); printf("  ■  ■■■  ■\n");
+    chcolor(DARKBLUE);
+    gotoxy(8, y + 6); printf("      ■  ■\n");
+    gotoxy(8, y + 7); printf("      ■  ■\n");
+}
+
+void jump()         // 케릭터 점프 함수
+{
+    int i, k = 0;
+    player(40);     // 케릭터 초기 위치 40
+    char keydown;
+
+    while (1)
+    {
+        
+        keydown = _getch();
+        if (keydown == Space)       // 스페이스바 키 입력 시
+        {
+            for (i = 0; i < 12; i++)     // 위로 올라감
+            {
+                Sleep(30);
+                system("cls");
+                GameSet();
+                player(40 - i);
+
+            }
+            for (i = 0; i < 12; i++)     // 아래로 내려옴
+            {
+                Sleep(30);
+                system("cls");
+
+                GameSet();
+                player(29 + i);
+            }
+
+        }
+    }
+}
+
+void stairs(int x)
+{
+    chcolor(DARKGRAY);
+    gotoxy(x, 42); printf("          ■");
+    gotoxy(x, 43); printf("        ■■");
+    gotoxy(x, 44); printf("      ■■■");
+    gotoxy(x, 45); printf("    ■■■■");
+    gotoxy(x, 46); printf("  ■■■■■");
+    gotoxy(x, 47); printf("■■■■■■");
+}
+
+void move()
+{
+    int i = 0;
+    stairs(140);        // 초기 장애물(계단)위치
+
+    for (i = 0; i < 130; i++)
+    {
+        Sleep(10);
+        system("cls");
+        
+        stairs(140 - i);
+        
+        GameSet();
+    }
+    system("cls");
+    GameSet();
+
+    
+}
+
+int main()
+{
+    char kb;
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+
+
+    GameSet();          // 게임 테두리 출력
+
+    move();
+    jump();    // 초기 플레이어 위치
+
+   
+    //kb = _getch();
+    //system("cls");
+}
+
+
+void gotoxy(int x, int y)   // 좌표 설정 함수
+{
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)		// 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void GameSet()
+{
+    int i;
+
+    chcolor(PURPLE);
+    gotoxy(3, 2);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    for (i = 3; i < 48; i++)
+    {
+        gotoxy(3, i); printf("■");
+        gotoxy(163, i); printf("■");
+    }
+
+    gotoxy(3, 48);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+}
