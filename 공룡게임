@@ -58,10 +58,9 @@ void stairs(int x)      // 장애물 출력
 void game1()
 {
     int cnt = 0;
-    int isjump = 0, isdown = 0;
+   
     int x = 0, y = 0;
     char keydown;    
-    int ispass;      // 충돌 확인
 
     while (1)
     {
@@ -153,7 +152,7 @@ int gameover(int player, int stairs)
 
 int main()
 {
-    char kb;
+ 
     system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
 
 
