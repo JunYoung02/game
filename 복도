@@ -24,13 +24,15 @@ void chcolor(int co);      // 글자 색 입히기, co에 원하는 색 입력
 void GameSet();         // 게임 테두리 
 
 // 위에 필요 없는 부분은 지워두고, 아래는 이번에 추가한 함수들
+void WalkWay();     // 복도 힘수
+void react();       // 복도에서 걷다가 힌트 주는 캐릭터 만나면 반응하는 함수
 
 void WalkWay()      // 복도 함수
 {
     int i;
 
 
-    chcolor(RED);      //▥  ▶  ▤
+    chcolor(RED);      //복도 위쪽 벽
     gotoxy(35, 5);  printf("■            ■     ■■■■■■■■     ■                   ■                        ■");
     gotoxy(35, 6);  printf("■            ■     ■                   ■                   ■                      ■  ■");
     gotoxy(35, 7);  printf("■            ■     ■                   ■                   ■                    ■      ■ ");
@@ -43,16 +45,29 @@ void WalkWay()      // 복도 함수
     gotoxy(35, 14); printf("■            ■     ■                   ■                   ■                      ■  ■");
     gotoxy(35, 15); printf("■            ■     ■■■■■■■■     ■■■■■■■■     ■■■■■■■            ■");
 
-    for (i = 5; i < 162; i++)
+    for (i = 5; i < 162; i++)       // 복도 가로 부분
     {
         chcolor(SKYBLUE);
         gotoxy(i, 18); printf("▤");
         gotoxy(i, 32); printf("▤");
     }
-    chcolor(RED);      //▥  ▶  ▤
 
-    //WORLD
+    chcolor(YELLOW);        // 복도 포탈 위치
+    gotoxy(159, 19); printf("▦▦");
+    gotoxy(159, 20); printf("▦▦");
+    gotoxy(159, 21); printf("▦▦");
+    gotoxy(159, 22); printf("▦▦");
+    gotoxy(159, 23); printf("▦▦");
+    gotoxy(159, 24); printf("▦▦");
+    gotoxy(159, 25); printf("▦▦");
+    gotoxy(159, 26); printf("▦▦");
+    gotoxy(159, 27); printf("▦▦");
+    gotoxy(159, 28); printf("▦▦");
+    gotoxy(159, 29); printf("▦▦");
+    gotoxy(159, 30); printf("▦▦");
+    gotoxy(159, 31); printf("▦▦");
 
+    chcolor(RED);      //복도 아래 벽에 써있는 글씨
     gotoxy(35, 36); printf("■■■                   ■■■       ■■■            ■■■■        ■              ■■■■");
     gotoxy(35, 37); printf("  ■                       ■       ■      ■          ■     ■       ■              ■      ■");
     gotoxy(35, 38); printf("   ■                     ■      ■          ■        ■      ■      ■              ■       ■  ");
@@ -61,10 +76,21 @@ void WalkWay()      // 복도 함수
     gotoxy(35, 41); printf("      ■      ■       ■     ■                  ■    ■     ■       ■              ■         ■");
     gotoxy(35, 42); printf("       ■    ■■     ■        ■              ■      ■      ■      ■              ■        ■");
     gotoxy(35, 43); printf("        ■  ■  ■  ■            ■          ■        ■       ■     ■              ■       ■");
-    gotoxy(35, 44); printf("         ■■    ■■               ■      ■          ■        ■    ■              ■      ■         ");
+    gotoxy(35, 44); printf("         ■■    ■■               ■      ■          ■        ■    ■              ■      ■ ");
     gotoxy(35, 45); printf("          ■      ■                  ■■■            ■         ■   ■■■■■■    ■■■■");
+
+    chcolor(WHITE);             // 복도에 쓰러져있는 캐릭터
+    gotoxy(100, 27); printf("       ■      ");
+    gotoxy(100, 28); printf("     ■  ■       ");
+    gotoxy(100, 29); printf("   ■      ■ ■■■■■      ");
+    gotoxy(100, 30); printf("     ■  ■     ■    ■       ");
+    gotoxy(100, 31); printf("       ■       ■    ■■■ ");
 }
 
+void react()
+{
+    // 주인공이 쓰러져있는 캐릭터에 다가갔을 때 반응하는 함수
+}
 
 int main()
 {
@@ -77,7 +103,7 @@ int main()
     // 이번 코드 동작
 
     WalkWay();
-
+    react();
     // 계속하려면,, 이 보여서 없애주기 위해 만듦, 지우면 됨
     kb = _getch();
     if (kb == Space)
