@@ -1,0 +1,116 @@
+
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+#define Space 32    // 스페이스바의 아스키코드 
+#define DARKBLUE 1      // 글자 다크 블루 1
+#define DARKGREEN 2         // 글자 다크 그린
+#define GRAY 7      // 글자 그레이 7
+#define DARKGRAY 8 // 글자 다크 그레이 8
+#define SKYBLUE 11   // 글자 스카이 블루 11
+#define RED 12      // 글자 빨간색 12
+#define PURPLE 13   // 글자 보라색 13
+#define YELLOW 14   // 글자 노란색 14
+#define WHITE 15   // 글자 흰색 15
+
+#define TRUE 1      // 참 1
+#define FALSE 0     // 거짓 0
+
+
+void gotoxy(int x, int y);   // 좌표 설정 함수
+void chcolor(int co);      // 글자 색 입히기, co에 원하는 색 입력
+void GameSet();         // 게임 테두리 
+
+// 위에 필요 없는 부분은 지워두고, 아래는 이번에 추가한 함수들
+
+void WalkWay()      // 복도 함수
+{
+    int i;
+
+
+    chcolor(RED);      //▥  ▶  ▤
+    gotoxy(35, 5);  printf("■            ■     ■■■■■■■■     ■                   ■                        ■");
+    gotoxy(35, 6);  printf("■            ■     ■                   ■                   ■                      ■  ■");
+    gotoxy(35, 7);  printf("■            ■     ■                   ■                   ■                    ■      ■ ");
+    gotoxy(35, 8);  printf("■            ■     ■                   ■                   ■                  ■          ■");
+    gotoxy(35, 9);  printf("■            ■     ■                   ■                   ■                ■              ■     ");
+    gotoxy(35, 10); printf("■■■■■■■■     ■■■■■■■■     ■                   ■              ■                  ■");
+    gotoxy(35, 11); printf("■            ■     ■                   ■                   ■                ■              ■");
+    gotoxy(35, 12); printf("■            ■     ■                   ■                   ■                  ■          ■");
+    gotoxy(35, 13); printf("■            ■     ■                   ■                   ■                    ■      ■");
+    gotoxy(35, 14); printf("■            ■     ■                   ■                   ■                      ■  ■");
+    gotoxy(35, 15); printf("■            ■     ■■■■■■■■     ■■■■■■■■     ■■■■■■■            ■");
+
+    for (i = 5; i < 162; i++)
+    {
+        chcolor(SKYBLUE);
+        gotoxy(i, 18); printf("▤");
+        gotoxy(i, 32); printf("▤");
+    }
+    chcolor(RED);      //▥  ▶  ▤
+
+    //WORLD
+
+    gotoxy(35, 36); printf("■■■                   ■■■       ■■■            ■■■■        ■              ■■■■");
+    gotoxy(35, 37); printf("  ■                       ■       ■      ■          ■     ■       ■              ■      ■");
+    gotoxy(35, 38); printf("   ■                     ■      ■          ■        ■      ■      ■              ■       ■  ");
+    gotoxy(35, 39); printf("    ■                   ■     ■              ■      ■     ■       ■              ■        ■");
+    gotoxy(35, 40); printf("     ■                 ■    ■                  ■    ■■■■        ■              ■         ■");
+    gotoxy(35, 41); printf("      ■      ■       ■     ■                  ■    ■     ■       ■              ■         ■");
+    gotoxy(35, 42); printf("       ■    ■■     ■        ■              ■      ■      ■      ■              ■        ■");
+    gotoxy(35, 43); printf("        ■  ■  ■  ■            ■          ■        ■       ■     ■              ■       ■");
+    gotoxy(35, 44); printf("         ■■    ■■               ■      ■          ■        ■    ■              ■      ■         ");
+    gotoxy(35, 45); printf("          ■      ■                  ■■■            ■         ■   ■■■■■■    ■■■■");
+}
+
+
+int main()
+{
+    int kb;
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+
+
+    GameSet();          // 게임 테두리 출력
+
+    // 이번 코드 동작
+
+    WalkWay();
+
+    // 계속하려면,, 이 보여서 없애주기 위해 만듦, 지우면 됨
+    kb = _getch();
+    if (kb == Space)
+    {
+        system("cls");
+    }
+}
+
+
+void gotoxy(int x, int y)   // 좌표 설정 함수
+{
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)      // 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void GameSet()      // 게임 테두리
+{
+    int i;
+
+    chcolor(PURPLE);
+    gotoxy(3, 2);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    for (i = 3; i < 48; i++)
+    {
+        gotoxy(3, i); printf("■");
+        gotoxy(163, i); printf("■");
+    }
+
+    gotoxy(3, 48);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+}
