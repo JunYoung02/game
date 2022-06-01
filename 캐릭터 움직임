@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <Windows.h>
+
+#define MAX_X 30
+#define MAX_Y 30
+
+#define UP 72
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
+
+void gotoxy(int x, int y);
+void move();
+
+void gotoxy(int x, int y)
+{
+    COORD Pos;
+    Pos.X = x * 2;
+    Pos.Y = y;
+
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+
+
+
+void move() 
+{
+    int X = (MAX_X / 2);
+
+    int Y = (MAX_Y / 2);
+
+    int site;
+
+
+
+    while (1) {
+
+        gotoxy(0, MAX_Y + 1);
+        printf("X 위치 : %d\n", X);
+        printf("Y 위치 : %d\n", Y);
+        gotoxy(X, Y);
+
+        printf("○");
+
+
+        site = getch();
+        switch (site) {
+
+        case 224:                       // 키 입력 받음
+
+            site = _getch();
+            switch (site) {
+            case UP:                    // up
+                if (Y != 0)
+                {
+                    Y--;
+                }
+                break;
+            case LEFT:                    // left
+                if (X != 0)
+                {
+                    X--;
+                }
+                break;
+
+            case RIGHT:                    // right
+                if (X != MAX_X)
+                {
+                    X++;
+                }
+                break;
+
+            case DOWN:                    // down
+                if (Y != MAX_Y)
+                {
+                    Y++;
+                }
+
+                break;
+
+            default:
+                break;
+            }
+
+        default:
+            break;
+        }
+        system("cls");
+    }
+}
+
+int main()
+{
+    move();
+    return 0;
+}
