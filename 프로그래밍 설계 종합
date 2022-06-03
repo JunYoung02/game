@@ -17,7 +17,7 @@
 #define PURPLE 13   // 글자 보라색 13
 #define YELLOW 14   // 글자 노란색 14
 #define WHITE 15   // 글자 흰색 15
-
+#define BLUE 9     // 글자 블루 9
 
 void gotoxy(int x, int y);   // 좌표 설정 함수
 void chcolor(int co);      // 글자 색 입히기, co에 원하는 색 입력
@@ -33,8 +33,15 @@ void login_main();      // login화면
 void make_username();   // 닉네임 만드는 함수
 void gamec1();
 void gamec2();
+void gamec3();
 void story();
 void story2();
+void drop();
+void intro();
+void player();          // 캐릭터 그리기
+void stairs();  // 공룡게임 장애물 그리기
+void game1();   // 게임1 공룡 게임
+int gameover(int player, int stairs);    // 게임 오버
 
 typedef struct data {            // 아이디와 비밀번호를 담을 구조체 선언
     char id[length + 1];         // NULL을 마지막에 들어가기 때문에 +1을 한다
@@ -47,16 +54,20 @@ D member[1];        // 하나의 구조체 member로 설정.
 int i = 0;
 
 void gamec1() {
+    chcolor(DARKGRAY);
     gotoxy(40, 21);  printf("      $$$$$$       ");
     gotoxy(40, 22);  printf("     $//////$               ");
+    chcolor(WHITE);
     gotoxy(40, 23);  printf("    (|◎  ◎|)     ");
     gotoxy(40, 24);  printf("     ＼ ⌒  /        ");
     gotoxy(40, 25);  printf("      ￣||￣        ");
+    chcolor(SKYBLUE);
     gotoxy(40, 26);  printf("   /￣  */￣￣|＼       ");
     gotoxy(40, 27);  printf("  /|    /     | |      ");
     gotoxy(40, 28);  printf(" ＼|   /*     | |        ");
     gotoxy(40, 29);  printf("   |＼/ *     |/         ");
     gotoxy(40, 30);  printf("   |  ＼*    /|          ");
+    chcolor(DARKGRAY);
     gotoxy(40, 31);  printf("   |￣￣￣￣￣|                       ");
     gotoxy(40, 32);  printf("   |    /＼   |            ");
     gotoxy(40, 33);  printf("   |   |  |   |           ");
@@ -69,34 +80,54 @@ void gamec1() {
 
 void gamec2() {
     chcolor(DARKGRAY);
-    gotoxy(60, 16);  printf("        ｜￣￣￣￣￣￣￣￣｜              ");
-    gotoxy(60, 17);  printf("        ｜                ｜         ");
-    gotoxy(60, 18);  printf("        ｜                ｜           ");
-    gotoxy(60, 19);  printf(" ｜￣￣￣                  ￣￣￣｜             ");
+    gotoxy(80, 16);  printf("        ｜￣￣￣￣￣￣￣￣｜              ");
+    gotoxy(80, 17);  printf("        ｜                ｜         ");
+    gotoxy(80, 18);  printf("        ｜                ｜           ");
+    gotoxy(80, 19);  printf(" ｜￣￣￣                  ￣￣￣｜             ");
     chcolor(WHITE);
-    gotoxy(60, 20);  printf("  ￣↙ㅣ￣￣￣￣￣￣￣￣￣ ㅣ↘￣          ");
-    gotoxy(60, 21);  printf("  ↙  ㅣ ( ￠ )    ( ￠ )  ㅣ  ↘ ");
-    gotoxy(60, 22);  printf("  ↖ (ㅣ      ㅣ  ㅣ       ㅣ) ↗ ");
-    gotoxy(60, 23);  printf("    ↖ㅣ     ㅣ    ㅣ      ㅣ↗       ");
-    gotoxy(60, 24);  printf("      ㅣ     ＼⌒ ⌒／     ㅣ       ");
-    gotoxy(60, 25);  printf("      ㅣ                   ㅣ        ");
-    gotoxy(60, 26);  printf("      ㅣ(   ＼ㅡㅡㅡ／    )ㅣ      ");
-    gotoxy(60, 27);  printf("       ＼    ⌒⌒⌒⌒      /");
-    gotoxy(60, 28);  printf("        ＼   ;;;;;;;      /       ");
-    gotoxy(60, 29);  printf("       ㅣ ￣￣＼￣/￣￣￣  ㅣ                        ");
+    gotoxy(80, 20);  printf("  ￣↙ㅣ￣￣￣￣￣￣￣￣￣ ㅣ↘￣          ");
+    gotoxy(80, 21);  printf("  ↙  ㅣ ( ￠ )    ( ￠ )  ㅣ  ↘ ");
+    gotoxy(80, 22);  printf("  ↖ (ㅣ      ㅣ  ㅣ       ㅣ) ↗ ");
+    gotoxy(80, 23);  printf("    ↖ㅣ     ㅣ    ㅣ      ㅣ↗       ");
+    gotoxy(80, 24);  printf("      ㅣ     ＼⌒ ⌒／     ㅣ       ");
+    gotoxy(80, 25);  printf("      ㅣ                   ㅣ        ");
+    gotoxy(80, 26);  printf("      ㅣ(   ＼ㅡㅡㅡ／    )ㅣ      ");
+    gotoxy(80, 27);  printf("       ＼    ⌒⌒⌒⌒      /");
+    gotoxy(80, 28);  printf("        ＼   ;;;;;;;      /       ");
+    gotoxy(80, 29);  printf("       ㅣ ￣￣＼￣/￣￣￣  ㅣ                        ");
     chcolor(DARKGRAY);
-    gotoxy(60, 30);  printf("    /￣￣￣￣￣＼/￣￣￣￣￣￣＼                     ");
-    gotoxy(60, 31);  printf("   /                           ＼      ");
-    gotoxy(60, 32);  printf("  ㅣ                            ㅣ      ");
-    gotoxy(60, 33);  printf("  ㅣ         ○                 ㅣ       ");
-    gotoxy(60, 34);  printf("  ㅣ                            ㅣ       ");
-    gotoxy(60, 35);  printf("  ㅣ                            ㅣ       ");
-    gotoxy(60, 36);  printf("  ㅣ         ○      ○         ㅣ       ");
-    gotoxy(60, 37);  printf("  ㅣ▤▤▤▤▤▤▤▤▤▤▤▤▤▤ㅣ       ");
-    gotoxy(60, 38);  printf("  ㅣ         ○      ○         ㅣ       ");
-    gotoxy(60, 39);  printf("  ㅣ                            ㅣ       ");
+    gotoxy(80, 30);  printf("    /￣￣￣￣￣＼/￣￣￣￣￣￣＼                     ");
+    gotoxy(80, 31);  printf("   /                           ＼      ");
+    gotoxy(80, 32);  printf("  ㅣ                            ㅣ      ");
+    gotoxy(80, 33);  printf("  ㅣ         ○                 ㅣ       ");
+    gotoxy(80, 34);  printf("  ㅣ                            ㅣ       ");
+    gotoxy(80, 35);  printf("  ㅣ                            ㅣ       ");
+    gotoxy(80, 36);  printf("  ㅣ         ○      ○         ㅣ       ");
+    gotoxy(80, 37);  printf("  ㅣ▤▤▤▤▤▤▤▤▤▤▤▤▤▤ㅣ       ");
+    gotoxy(80, 38);  printf("  ㅣ         ○      ○         ㅣ       ");
+    gotoxy(80, 39);  printf("  ㅣ                            ㅣ       ");
 }
-
+void gamec3() {
+    chcolor(DARKGRAY);
+    gotoxy(45, 24);  printf("         $$$$$$$$$$$       ");
+    gotoxy(45, 25);  printf("       $$$$$$$$$$$$$$ ");
+    gotoxy(45, 26);  printf("      $//////////////$     ");
+    chcolor(WHITE);
+    gotoxy(45, 27);  printf("     (|  (◎)   (◎) |)        ");
+    gotoxy(45, 28);  printf("      |     〈       | ");
+    gotoxy(45, 29);  printf("      |      ㅡ      |      ");
+    gotoxy(45, 30);  printf("      ＼            / ");
+    gotoxy(45, 31);  printf("        ￣ ＼￣/￣￣             ");
+    chcolor(SKYBLUE);
+    gotoxy(45, 32);  printf("  /|￣￣￣￣*  /￣￣￣￣ |＼   ");
+    gotoxy(45, 33);  printf(" / |        * /          |  |       ");
+    gotoxy(45, 34);  printf(" | |        */           |  |   ");
+    gotoxy(45, 35);  printf(" ＼|        /            |  |       ");
+    gotoxy(45, 36);  printf("   |＼     /*            | /          ");
+    gotoxy(45, 37);  printf("   |  ＼  / *            |/    ");
+    gotoxy(45, 38);  printf("   |    ＼  *            |             ");
+    gotoxy(45, 39);  printf("   |      ＼*            |          ");
+}
 void introduce()        // 회원가입 안내사항
 {
     chcolor(RED);
@@ -363,6 +394,8 @@ void story()
         Sleep(100);
     }
     printf("\n");
+    intro();
+    drop();
     system("cls");
     GameSet();
     chcolor(RED);
@@ -398,7 +431,225 @@ void story()
     }
     printf("\n");
 }
+void intro()   // 게임 인트로 (재림관)
+{
+    chcolor(DARKGREEN);
+    gotoxy(40, 20);  printf(" ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+    gotoxy(40, 21);  printf(" ▣    □     □ † □□□□   □†        □  □ †  □□    □  †  □□□□□ ▣");
+    gotoxy(40, 22);  printf(" ▣  □ □  □□ †      □  □□† □□□ □  □ †          □  †          □ ▣");
+    gotoxy(40, 23);  printf(" ▣ □   □   □ †    □      □† □     □  □ †  □□    □□†          □ ▣");
+    gotoxy(40, 24);  printf(" ▣              †          □□† □     □□□ † □  □   □  †          □ ▣");
+    gotoxy(40, 25);  printf(" ▣      □□    †   □□□□ □† □     □  □ †  □□    □  †   □  □    ▣");
+    gotoxy(40, 26);  printf(" ▣     □  □   †         □   † □□□ □  □ †              †   □  □    ▣");
+    gotoxy(40, 27);  printf(" ▣      □□    †   □□□□   †        □  □ †   □□□□   † □□□□□  ▣");
+    gotoxy(40, 28);  printf(" ▣              †   □         †               †         □   †             ▣");
+    gotoxy(40, 29);  printf(" ▣              †   □□□□   †               †         □   †             ▣");
+    gotoxy(40, 30);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 31);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 32);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 33);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 34);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 35);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 36);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 37);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 38);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 39);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 40);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 41);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 42);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 43);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 44);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 45);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩▩▩▩▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 46);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 47);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 47);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    chcolor(BLUE);
+    gotoxy(43, 21);  printf("    □     □ † □□□□   □†        □  □ †  □□    □  †  □□□□□");
+    gotoxy(43, 22);  printf("  □ □  □□ †      □  □□† □□□ □  □ †          □  †          □");
+    gotoxy(43, 23);  printf(" □   □   □ †    □      □† □     □  □ †  □□    □□†          □");
+    gotoxy(43, 24);  printf("              †          □□† □     □□□ † □  □   □  †          □");
+    gotoxy(43, 25);  printf("      □□    †   □□□□ □† □     □  □ †  □□    □  †   □  □   ");
+    gotoxy(43, 26);  printf("     □  □   †         □   † □□□ □  □ †              †   □  □   ");
+    gotoxy(43, 27);  printf("      □□    †   □□□□   †        □  □ †   □□□□   † □□□□□ ");
+    gotoxy(43, 28);  printf("              †   □         †               †         □   †            ");
+    gotoxy(43, 29);  printf("              †   □□□□   †               †         □   †            ");
+    chcolor(DARKBLUE);
+    gotoxy(42, 31);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+    gotoxy(42, 34);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+    gotoxy(42, 39);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+    gotoxy(42, 42);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+}
+void game1()
+{
+    int cnt = 0;
 
+    int x = 0, y = 0;
+    char keydown;
+
+    while (1)
+    {
+        if (gameover(y, x))
+        {
+            cnt = 0;
+        }
+        //player(y);     // 케릭터 초기 위치 40
+        if (_kbhit())   // 키보드를 눌렀는지 확인 , 눌렀으면 참, 안 눌렀으면 거짓
+        {
+            keydown = _getch();
+            if (keydown == Space)       // 누른 키가 스페이스바일 경우 점프, 다른 키일 경우 변화 x
+            {
+                while (1)           // 플레이어 상승
+                {
+                    GameSet();
+                    stairs(x);
+                    if (x != 132)       // 장애물 출력
+                    {
+                        x++;
+                    }
+                    else
+                        x = 0;
+
+                    player(y);
+                    y--;
+                    Sleep(10);
+                    system("cls");
+                    if (y == -12)
+                        break;
+                }
+
+                while (1)       // 플레이어 하강
+                {
+
+                    GameSet();
+                    stairs(x);
+                    if (x != 132)       // 장애물 관련
+                    {
+                        x++;
+                    }
+                    else
+                        x = 0;
+
+                    player(y);
+                    Sleep(10);
+                    system("cls");
+                    y++;
+                    if (y == 0)
+                        break;
+                }
+
+            }
+        }
+        if (x != 132)       // 장애물 관련
+        {
+            x++;
+        }
+        else
+            x = 0;
+
+        chcolor(WHITE);
+        gotoxy(140, 5); printf("600달성시 게임 클리어");
+        gotoxy(140, 6); printf("현재 내 점수 : %d", cnt++);
+        if (cnt == 600)     // cnt가 600이 되면 게임 클리어
+        {
+            break;
+        }
+        GameSet();
+        player(y);
+        stairs(x);
+        Sleep(10);
+        system("cls");
+    }
+    system("cls");      // 게임 클리어시 여기로 빠져나옴
+    GameSet();
+    gotoxy(20, 20); printf("여기에 내용 이어서,,,");
+}
+
+int gameover(int player, int stairs)
+{
+    if (player <= 0 && player >= -7 && stairs >= 119 && stairs <= 132)      // 플레이어와 장애물의 충돌 범위 설정
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+void player(int y)      // 캐릭터 그리기
+{
+    chcolor(DARKGRAY);
+    gotoxy(12, 30 + y); printf("     $$$$$$ \n");
+    gotoxy(12, 31 + y); printf("    $//////$ \n");
+    chcolor(WHITE);
+    gotoxy(12, 32 + y); printf("   (|◎  ◎|)  \n");
+    gotoxy(12, 33 + y); printf("    ＼ ⌒  /  \n");
+    gotoxy(12, 34 + y); printf("     ￣||￣ \n");
+    chcolor(SKYBLUE);
+    gotoxy(12, 35 + y); printf("  /￣  */￣￣|＼\n");
+    gotoxy(12, 36 + y); printf(" /|    /     | | \n");
+    gotoxy(12, 37 + y); printf("＼|   /*     | |\n");
+    gotoxy(12, 38 + y); printf("  |＼/ *     |/\n");
+    gotoxy(12, 39 + y); printf("  |  ＼*    /|\n");
+    chcolor(DARKGRAY);
+    gotoxy(12, 40 + y); printf("  |￣￣￣￣￣| \n");
+    gotoxy(12, 41 + y); printf("  |    /＼   |\n");
+    gotoxy(12, 42 + y); printf("  |   |  |   |\n");
+    gotoxy(12, 43 + y); printf("  |   |  |   |\n");
+    gotoxy(12, 44 + y); printf("  |   |  |   |\n");
+    gotoxy(12, 45 + y); printf("  |￣￣| |￣￣|\n");
+    gotoxy(12, 46 + y); printf("  |§  ▶|§  ▶\n");
+    gotoxy(12, 47 + y); printf("   ￣￣   ￣￣\n");
+}
+
+void stairs(int x)      // 장애물 출력
+{
+    chcolor(DARKGRAY);
+    gotoxy(140 - x, 43); printf("        ■");
+    gotoxy(140 - x, 44); printf("      ■■");
+    gotoxy(140 - x, 45); printf("    ■■■");
+    gotoxy(140 - x, 46); printf("  ■■■■");
+    gotoxy(140 - x, 47); printf("■■■■■");
+}
+void drop()     // 재림관에서 3명의 자살 사건
+{
+    int i = 0;
+    chcolor(WHITE);
+
+    chcolor(GRAY);
+    gotoxy(88, 20); printf("옷");
+    gotoxy(86, 20); printf("옷");
+    gotoxy(84, 20); printf("옷");
+
+
+    while (1)
+    {
+        system("cls");
+        GameSet();
+        intro();
+        chcolor(RED);
+        gotoxy(88, 20 + i); printf("옷");
+        gotoxy(86, 20 + i); printf("옷");
+        gotoxy(84, 20 + i); printf("옷");
+
+        Sleep(200);
+
+        i++;
+        if (i == 27)
+            break;
+    }
+    system("cls");
+    GameSet();
+    intro();
+
+    chcolor(RED);
+    gotoxy(91, 41); printf("▦");
+    gotoxy(90, 42); printf("▦▦");
+    gotoxy(89, 43); printf("▦▦▦");
+    gotoxy(88, 44); printf("▦▦▦▦");
+    gotoxy(87, 45); printf("▦▦▦▦▦");
+    gotoxy(86, 46); printf("▦▦▦▦▦▦");
+    gotoxy(85, 47); printf("▦▦▦▦▦▦▦");
+
+    chcolor(WHITE);
+}
 void story2()
 {
     _getch();
@@ -416,6 +667,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(%s) : 아... 교수님들이 많이 심하시긴 하셨어요.....\n", member->user);
     gotoxy(45, 41); printf("매일 같이 과제에...실습에...팀플까지!\n");
@@ -425,6 +677,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(형사) : 그래? 너는 떨어진 3명과 같은 팀플 조원이더군,\n");
     gotoxy(45, 41); printf("(형사) : 혹시 팀플에서는 아무런 문제가 없었니?\n\n\n\n");
@@ -433,6 +686,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(%s) : 서로 항상 너무 많은 과제를 내주시는 교수님에 대해 안좋게 말을 했어요...\n", member->user);
     gotoxy(45, 41); printf("(%s) : 저희는 잘못이 없다면서 말이죠...\n\n\n\n", member->user);
@@ -441,6 +695,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(형사) : 음.., 그렇구나 교수님들께서는 절대 그렇지 않다고들 말씀하시던데???\n");
     gotoxy(45, 41); printf("(형사) : 오히려 너가 팀플에서 마음대로 행동해서 그 친구들이 힘들어 했다더구나.\n\n\n\n");
@@ -449,6 +704,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(%s) : 아니예요! 저는 정말 항상 최선을 다했어요!!!\n", member->user);
     gotoxy(45, 41); printf("(%s) : 믿어주세요!!!\n\n\n\n", member->user);
@@ -457,6 +713,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(형사) : 그럼 교수님들과 한번 상담을 해보겠니?\n");
     gotoxy(45, 41); printf("(형사) : 그러고 나서 만든 상담일지를 나에게 가져다주렴.\n\n\n\n");
@@ -465,6 +722,7 @@ void story2()
     system("cls");
     GameSet();
     gamec2();
+    gamec3();
     chcolor(RED);
     gotoxy(45, 40); printf("(%s) : 후...알겠어요!\n", member->user);
     gotoxy(45, 41); printf("(%s) : 하지만 진짜 저 때문이 아니에요! 믿어주세요!\n\n\n\n", member->user);
@@ -553,8 +811,8 @@ int main()
 {
     char kb;
     system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
-    story2();
-     /*GameSet();          // 게임 테두리 출력
+
+    GameSet();          // 게임 테두리 출력
     StartGame();        // 게임 시작 화면 출력
 
    kb = _getch();
@@ -594,7 +852,8 @@ int main()
         system("cls");
         GameSet();
         story();
-        story2();*/
+        story2();
+        game1();
 }
 
 
