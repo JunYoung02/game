@@ -181,6 +181,38 @@ void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
     }
 }
 
+
+void WalkWay()      // 복도벽에 써있는 글씨
+{
+    int i;
+
+
+    chcolor(RED);      //복도 위쪽 벽
+    gotoxy(35, 5);  printf("■            ■     ■■■■■■■■     ■                   ■                        ■");
+    gotoxy(35, 6);  printf("■            ■     ■                   ■                   ■                      ■  ■");
+    gotoxy(35, 7);  printf("■            ■     ■                   ■                   ■                    ■      ■ ");
+    gotoxy(35, 8);  printf("■            ■     ■                   ■                   ■                  ■          ■");
+    gotoxy(35, 9);  printf("■            ■     ■                   ■                   ■                ■              ■     ");
+    gotoxy(35, 10); printf("■■■■■■■■     ■■■■■■■■     ■                   ■              ■                  ■");
+    gotoxy(35, 11); printf("■            ■     ■                   ■                   ■                ■              ■");
+    gotoxy(35, 12); printf("■            ■     ■                   ■                   ■                  ■          ■");
+    gotoxy(35, 13); printf("■            ■     ■                   ■                   ■                    ■      ■");
+    gotoxy(35, 14); printf("■            ■     ■                   ■                   ■                      ■  ■");
+    gotoxy(35, 15); printf("■            ■     ■■■■■■■■     ■■■■■■■■     ■■■■■■■            ■");
+
+    chcolor(RED);      //복도 아래 벽에 써있는 글씨
+    gotoxy(35, 36); printf("■■■                   ■■■       ■■■            ■■■■        ■              ■■■■");
+    gotoxy(35, 37); printf("  ■                       ■       ■      ■          ■     ■       ■              ■      ■");
+    gotoxy(35, 38); printf("   ■                     ■      ■          ■        ■      ■      ■              ■       ■  ");
+    gotoxy(35, 39); printf("    ■                   ■     ■              ■      ■     ■       ■              ■        ■");
+    gotoxy(35, 40); printf("     ■                 ■    ■                  ■    ■■■■        ■              ■         ■");
+    gotoxy(35, 41); printf("      ■      ■       ■     ■                  ■    ■     ■       ■              ■         ■");
+    gotoxy(35, 42); printf("       ■    ■■     ■        ■              ■      ■      ■      ■              ■        ■");
+    gotoxy(35, 43); printf("        ■  ■  ■  ■            ■          ■        ■       ■     ■              ■       ■");
+    gotoxy(35, 44); printf("         ■■    ■■               ■      ■          ■        ■    ■              ■      ■ ");
+    gotoxy(35, 45); printf("          ■      ■                  ■■■            ■         ■   ■■■■■■    ■■■■");
+}
+
 int main()
 {
     int kb;
@@ -191,6 +223,7 @@ int main()
 
     // 이번 코드 동작
 
+    WalkWay();
     moveway();
 
     // 계속하려면,, 이 보여서 없애주기 위해 만듦, 지우면 됨
