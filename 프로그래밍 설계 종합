@@ -731,8 +731,8 @@ void story2()
     system("cls");
     GameSet();
     chcolor(RED);
-    gotoxy(25, 20); printf("\t\t\t\t\t\t\t<paze1>\n\n");
-    gotoxy(25, 10); printf("\t\t\t\t\t\t\tstrat!\n\n");
+    gotoxy(20, 20); printf("\t\t\t\t\t\t\t1층 문형진교수님을 만나러가는 계단\n\n");
+    gotoxy(20, 21); printf("\t\t\t\t\t\t\tstrat!\n\n");
 }
 void make_username()       // 닉네임 만드는 함수
 {
