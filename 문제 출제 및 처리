@@ -1,0 +1,127 @@
+
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+#define Space 32    // 스페이스바의 아스키코드 
+#define DARKBLUE 1      // 글자 다크 블루 1
+#define DARKGREEN 2         // 글자 다크 그린
+#define GRAY 7      // 글자 그레이 7
+#define DARKGRAY 8 // 글자 다크 그레이 8
+#define SKYBLUE 11   // 글자 스카이 블루 11
+#define RED 12      // 글자 빨간색 12
+#define PURPLE 13   // 글자 보라색 13
+#define YELLOW 14   // 글자 노란색 14
+#define WHITE 15   // 글자 흰색 15
+
+#define TRUE 1      // 참 1
+#define FALSE 0     // 거짓 0
+
+
+void gotoxy(int x, int y);   // 좌표 설정 함수
+void chcolor(int co);      // 글자 색 입히기, co에 원하는 색 입력
+void GameSet();         // 게임 테두리 
+#define UP 72
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
+
+// 이번에 추가한 함수들
+void room();        // 사무실
+void Qu();
+typedef struct Quiz         // 퀴즈 구조체
+{
+    char question[100];    // 문제 저장
+    char ex[100];          // 보기 저장
+    char check;              // 정답이 맞는지 확인
+}Q;
+
+void Qu()
+{
+    int input, cnt = 0;
+
+    Q mun1[2] = {
+        {"1. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
+        {"2.번문제...", "1번.. 2번.. 3번.. 4번,, 5번...", '2'}
+    };
+
+    gotoxy(20, 37); printf("%s", mun1[0].question);
+    gotoxy(22, 39); printf("%s", mun1[0].ex);
+
+    gotoxy(70, 45); printf("-정답은 숫자키 누르기-");
+
+    // 정답을 맞추면 cnt를 1증가
+    input = _getch();
+    if (input == mun1[0].check)
+        cnt = cnt + 1;
+    gotoxy(140, 38); printf("정답 맞춘 개수 : %d", cnt);
+}
+
+void room()     // 사무실 꾸미기 
+{
+    int i;
+
+    chcolor(WHITE);
+    gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
+
+
+    gotoxy(5, 35);              // 문제를 출제할 공간
+    for (i = 0; i < 79; i++)        
+    {
+        chcolor(WHITE); printf("■");
+    }
+}
+
+
+int main()
+{
+    int kb;
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+
+
+    GameSet();          // 게임 테두리 출력
+
+    // 이번 코드 동작
+    room();
+    
+    Qu();
+    // 계속하려면,, 이 보여서 없애주기 위해 만듦, 지우면 됨
+
+    /*
+    kb = _getch();
+    if (kb == Space)
+    {
+        system("cls");
+    }
+    */
+}
+
+
+void gotoxy(int x, int y)   // 좌표 설정 함수
+{
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)      // 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void GameSet()      // 게임 테두리
+{
+    int i;
+
+    chcolor(PURPLE);
+    gotoxy(3, 2);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    for (i = 3; i < 48; i++)
+    {
+        gotoxy(3, i); printf("■");
+        gotoxy(163, i); printf("■");
+    }
+
+    gotoxy(3, 48);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+}
