@@ -47,20 +47,20 @@ void player(int y)      // 캐릭터 그리기
 void stairs(int x)      // 장애물 출력
 {
     chcolor(DARKGRAY);
-    gotoxy(140 - x, 43); printf("        ■");
-    gotoxy(140 - x, 44); printf("      ■■");
-    gotoxy(140 - x, 45); printf("    ■■■");
-    gotoxy(140 - x, 46); printf("  ■■■■");
-    gotoxy(140 - x, 47); printf("■■■■■");
+    gotoxy(45 - x, 43); printf("        ■");
+    gotoxy(45 - x, 44); printf("      ■■");
+    gotoxy(45 - x, 45); printf("    ■■■");
+    gotoxy(45 - x, 46); printf("  ■■■■");
+    gotoxy(45 - x, 47); printf("■■■■■");
 }
 
 
 void game1()
 {
     int cnt = 0;
-   
+
     int x = 0, y = 0;
-    char keydown;    
+    char keydown;
 
     while (1)
     {
@@ -71,34 +71,34 @@ void game1()
         //player(y);     // 케릭터 초기 위치 40
         if (_kbhit())   // 키보드를 눌렀는지 확인 , 눌렀으면 참, 안 눌렀으면 거짓
         {
-            keydown = _getch();     
+            keydown = _getch();
             if (keydown == Space)       // 누른 키가 스페이스바일 경우 점프, 다른 키일 경우 변화 x
             {
                 while (1)           // 플레이어 상승
                 {
                     GameSet();
                     stairs(x);
-                    if (x != 132)       // 장애물 출력
+                    if (x != 37)       // 장애물 출력
                     {
                         x++;
                     }
                     else
                         x = 0;
 
-                    player(y);      
+                    player(y);
                     y--;
                     Sleep(10);
                     system("cls");
                     if (y == -12)
                         break;
                 }
-                
+
                 while (1)       // 플레이어 하강
                 {
-                    
+
                     GameSet();
                     stairs(x);
-                    if (x != 132)       // 장애물 관련
+                    if (x != 37)       // 장애물 관련
                     {
                         x++;
                     }
@@ -112,16 +112,16 @@ void game1()
                     if (y == 0)
                         break;
                 }
-                
+
             }
         }
-        if (x != 132)       // 장애물 관련
+        if (x != 37)       // 장애물 관련
         {
-        x++;
+            x++;
         }
         else
             x = 0;
-     
+
         chcolor(WHITE);
         gotoxy(140, 5); printf("600달성시 게임 클리어");
         gotoxy(140, 6); printf("현재 내 점수 : %d", cnt++);
@@ -142,24 +142,24 @@ void game1()
 
 int gameover(int player, int stairs)
 {
-    if (player <= 0 && player >= -7 && stairs >= 119 && stairs <= 132)      // 플레이어와 장애물의 충돌 범위 설정
+    if (player <= 0 && player >= -7 && stairs >= 25 && stairs <= 37)      // 플레이어와 장애물의 충돌 범위 설정
     {
         return TRUE;
     }
-    
+
     return FALSE;
 }
 
 int main()
 {
- 
+
     system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
 
 
     GameSet();          // 게임 테두리 출력
 
     game1();
-   
+
 }
 
 
