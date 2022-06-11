@@ -1,14 +1,64 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <conio.h>
-#include <time.h>
-#include <Windows.h>
+#include<Windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+#include<string.h>
+#include<ctype.h>
+#include<stdlib.h>
 
-#define length 10                // 아이디와 비밀번호 length로 함
+#define length 10    // 아이디와 비밀번호 length로 함
+#define Space 32    // 스페이스바의 아스키코드 
+#define DARKBLUE 1      // 글자 다크 블루 1
+#define DARKGREEN 2         // 글자 다크 그린
+#define GRAY 7      // 글자 그레이 7
+#define DARKGRAY 8 // 글자 다크 그레이 8
+#define SKYBLUE 11   // 글자 스카이 블루 11
+#define RED 12      // 글자 빨간색 12
+#define PURPLE 13   // 글자 보라색 13
+#define YELLOW 14   // 글자 노란색 14
+#define WHITE 15   // 글자 흰색 15
+#define BLUE 9     // 글자 블루 9
+#define UP 72
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
 
-typedef struct data {            // 아이디와 비밀번호, 닉네임를 담을 구조체 선언
+void gotoxy(int x, int y);   // 좌표 설정 함수
+void chcolor(int co);      // 글자 색 입히기, co에 원하는 색 입력
+void GameSet();         // 게임 테두리 
+void StartGame();        // 게임 시작 화면
+void GameSelect();       // 게임 모드 선택
+void RedRain();         // 빨간색 비 출력 
+void join();       // id 만드는 함수
+void join2();      // password 만드는 함수
+void introduce();  // 회원가입 안내사항
+int login(char id[], char pw[]);      // id 로그인
+void login_main();      // login화면
+void make_username();   // 닉네임 만드는 함수
+void gamec1();
+void gamec2();
+void gamec3();
+void gamec4();
+void gamec5();
+void gamec6();
+void gamec7();
+void gamec8();
+
+void story();
+void story2();
+void drop();
+void intro();
+void player();          // 캐릭터 그리기
+void stairs();  // 공룡게임 장애물 그리기
+void game1();   // 게임1 공룡 게임
+int gameover(int player, int stairs);    // 게임 오버
+void drawway();     // 복도 그리기 힘수
+void moveway();     // 복도에서 움직이는 함수
+void room();        // 사무실
+void drawmap();     // 미로 그리기
+void move_miro();      // 미로에서 캐릭터 이동
+
+typedef struct data {            // 아이디와 비밀번호를 담을 구조체 선언
     char id[length + 1];         // NULL을 마지막에 들어가기 때문에 +1을 한다
     char pw[length + 1];
     char user[length + 1];
@@ -17,40 +67,228 @@ typedef struct data {            // 아이디와 비밀번호, 닉네임를 담�
 D member[1];        // 하나의 구조체 member로 설정.
 
 int i = 0;
-FILE* fp;          // 파일 포인터를 전역 변수로 설정하여 모든 함수에서 활용할 수 있도록 함.
 
-void join();       // id 만드는 함수
-void join2();      // password 만드는 함수
-void introduce();  // 회원가입 안내사항
-int login(char id[], char pw[]);      // id 로그인
-void login_main();      // login화면
-void make_username();   // 닉네임 만드는 함수
+void gamec1() {
+    chcolor(DARKGRAY);
+    gotoxy(40, 21);  printf("      $$$$$$       ");
+    gotoxy(40, 22);  printf("     $//////$               ");
+    chcolor(WHITE);
+    gotoxy(40, 23);  printf("    (|◎  ◎|)     ");
+    gotoxy(40, 24);  printf("     ＼ ⌒  /        ");
+    gotoxy(40, 25);  printf("      ￣||￣        ");
+    chcolor(SKYBLUE);
+    gotoxy(40, 26);  printf("   /￣  */￣￣|＼       ");
+    gotoxy(40, 27);  printf("  /|    /     | |      ");
+    gotoxy(40, 28);  printf(" ＼|   /*     | |        ");
+    gotoxy(40, 29);  printf("   |＼/ *     |/         ");
+    gotoxy(40, 30);  printf("   |  ＼*    /|          ");
+    chcolor(DARKGRAY);
+    gotoxy(40, 31);  printf("   |￣￣￣￣￣|                       ");
+    gotoxy(40, 32);  printf("   |    /＼   |            ");
+    gotoxy(40, 33);  printf("   |   |  |   |           ");
+    gotoxy(40, 34);  printf("   |   |  |   | ");
+    gotoxy(40, 35);  printf("   |   |  |   |             ");
+    gotoxy(40, 36);  printf("   |￣￣| |￣￣|                 ");
+    gotoxy(40, 37);  printf("   |§  ▶|§  ▶               ");
+    gotoxy(40, 38);  printf("    ￣￣   ￣￣      ");
+}
 
-void story();           // story1 화면
-
+void gamec2() {
+    chcolor(DARKGRAY);
+    gotoxy(80, 16);  printf("        ｜￣￣￣￣￣￣￣￣｜              ");
+    gotoxy(80, 17);  printf("        ｜                ｜         ");
+    gotoxy(80, 18);  printf("        ｜                ｜           ");
+    gotoxy(80, 19);  printf(" ｜￣￣￣                  ￣￣￣｜             ");
+    chcolor(WHITE);
+    gotoxy(80, 20);  printf("  ￣↙ㅣ￣￣￣￣￣￣￣￣￣ ㅣ↘￣          ");
+    gotoxy(80, 21);  printf("  ↙  ㅣ ( ￠ )    ( ￠ )  ㅣ  ↘ ");
+    gotoxy(80, 22);  printf("  ↖ (ㅣ      ㅣ  ㅣ       ㅣ) ↗ ");
+    gotoxy(80, 23);  printf("    ↖ㅣ     ㅣ    ㅣ      ㅣ↗       ");
+    gotoxy(80, 24);  printf("      ㅣ     ＼⌒ ⌒／     ㅣ       ");
+    gotoxy(80, 25);  printf("      ㅣ                   ㅣ        ");
+    gotoxy(80, 26);  printf("      ㅣ(   ＼ㅡㅡㅡ／    )ㅣ      ");
+    gotoxy(80, 27);  printf("       ＼    ⌒⌒⌒⌒      /");
+    gotoxy(80, 28);  printf("        ＼   ;;;;;;;      /       ");
+    gotoxy(80, 29);  printf("       ㅣ ￣￣＼￣/￣￣￣  ㅣ                        ");
+    chcolor(DARKGRAY);
+    gotoxy(80, 30);  printf("    /￣￣￣￣￣＼/￣￣￣￣￣￣＼                     ");
+    gotoxy(80, 31);  printf("   /                           ＼      ");
+    gotoxy(80, 32);  printf("  ㅣ                            ㅣ      ");
+    gotoxy(80, 33);  printf("  ㅣ         ○                 ㅣ       ");
+    gotoxy(80, 34);  printf("  ㅣ                            ㅣ       ");
+    gotoxy(80, 35);  printf("  ㅣ                            ㅣ       ");
+    gotoxy(80, 36);  printf("  ㅣ         ○      ○         ㅣ       ");
+    gotoxy(80, 37);  printf("  ㅣ▤▤▤▤▤▤▤▤▤▤▤▤▤▤ㅣ       ");
+    gotoxy(80, 38);  printf("  ㅣ         ○      ○         ㅣ       ");
+    gotoxy(80, 39);  printf("  ㅣ                            ㅣ       ");
+}
+void gamec3() {
+    chcolor(DARKGRAY);
+    gotoxy(45, 24);  printf("         $$$$$$$$$$$       ");
+    gotoxy(45, 25);  printf("       $$$$$$$$$$$$$$ ");
+    gotoxy(45, 26);  printf("      $//////////////$     ");
+    chcolor(WHITE);
+    gotoxy(45, 27);  printf("     (|  (◎)   (◎) |)        ");
+    gotoxy(45, 28);  printf("      |     〈       | ");
+    gotoxy(45, 29);  printf("      |      ㅡ      |      ");
+    gotoxy(45, 30);  printf("      ＼            / ");
+    gotoxy(45, 31);  printf("        ￣ ＼￣/￣￣             ");
+    chcolor(SKYBLUE);
+    gotoxy(45, 32);  printf("  /|￣￣￣￣*  /￣￣￣￣ |＼   ");
+    gotoxy(45, 33);  printf(" / |        * /          |  |       ");
+    gotoxy(45, 34);  printf(" | |        */           |  |   ");
+    gotoxy(45, 35);  printf(" ＼|        /            |  |       ");
+    gotoxy(45, 36);  printf("   |＼     /*            | /          ");
+    gotoxy(45, 37);  printf("   |  ＼  / *            |/    ");
+    gotoxy(45, 38);  printf("   |    ＼  *            |             ");
+    gotoxy(45, 39);  printf("   |      ＼*            |          ");
+}
+void gamec4() {
+    gotoxy(40, 20);  printf(" ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+    gotoxy(40, 21);  printf(" ▣    □     □ † □□□□   □†        □  □ †  □□    □  †  □□□□□ ▣");
+    gotoxy(40, 22);  printf(" ▣  □ □  □□ †      □  □□† □□□ □  □ †          □  †          □ ▣");
+    gotoxy(40, 23);  printf(" ▣ □   □   □ †    □      □† □     □  □ †  □□    □□†          □ ▣");
+    gotoxy(40, 24);  printf(" ▣              †          □□† □     □□□ † □  □   □  †          □ ▣");
+    gotoxy(40, 25);  printf(" ▣      □□    †   □□□□ □† □     □  □ †  □□    □  †   □  □    ▣");
+    gotoxy(40, 26);  printf(" ▣     □  □   †         □   † □□□ □  □ †              †   □  □    ▣");
+    gotoxy(40, 27);  printf(" ▣      □□    †   □□□□   †        □  □ †   □□□□   † □□□□□  ▣");
+    gotoxy(40, 28);  printf(" ▣              †   □         †               †         □   †             ▣");
+    gotoxy(40, 29);  printf(" ▣              †   □□□□   †               †         □   †             ▣");
+    gotoxy(40, 30);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 31);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 32);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 33);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 34);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 35);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 36);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 37);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 38);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 39);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 40);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 41);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 42);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 43);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 44);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 45);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩▩▩▩▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 46);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 47);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 47);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+}
+void gamec5() {
+    gotoxy(60, 14);  printf("              ///////＼");
+    gotoxy(60, 15);  printf("            $///////////$     ㅡ");
+    gotoxy(60, 16);  printf("           (| |○| |○||)    ㅣㅣ");
+    gotoxy(60, 17);  printf("            |  ￣/  ￣ |     ㅣㅣ");
+    gotoxy(60, 18);  printf("            ＼   ㅁ    /     ㅣㅣ");
+    gotoxy(60, 19);  printf("             ￣￣l  l￣      ㅣㅣ ");
+    gotoxy(60, 20);  printf("          ㅣ￣￣￣  ￣￣￣ㅣ ㅣㅣ");
+    gotoxy(60, 21);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(60, 22);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(60, 23);  printf("          ㅣ            / ㅣ ㅣㅣ");
+    gotoxy(60, 24);  printf("          ∂ㅣ￣￣￣￣￣ㅣ/  ㅣㅣ");
+    gotoxy(60, 25);  printf("          ∂￣￣￣￣￣￣￣ㅣ ㅣㅣ");
+    gotoxy(60, 26);  printf("      / ￣￣￣￣￣/       /  ㅣㅣ");
+    gotoxy(60, 27);  printf("      /      /━━━━━          ㅣㅣ");
+    gotoxy(60, 28);  printf("     /  / /  / ㅣ￣￣￣￣￣￣  ㅣ");
+    gotoxy(60, 29);  printf("    /  / /  /   ￣￣￣ㅣ ㅣ￣￣￣");
+    gotoxy(60, 30);  printf("   /  / /  /          ㅣ ㅣ");
+    gotoxy(60, 31);  printf("  /  / /  /           ㅣ ㅣ");
+    gotoxy(60, 32);  printf("◀∽│◀∽│            ㅣ ㅣ");
+    gotoxy(60, 33);  printf("               ￣￣￣￣￣￣￣￣￣");
+}
+void gamec6() {
+    gotoxy(80, 20);  printf("              $$$$$$$$$");
+    gotoxy(80, 21);  printf("            $$$$$$$$$$$$$     ㅡ");
+    gotoxy(80, 22);  printf("           (| (￠)(￠) |)    ㅣㅣ");
+    gotoxy(80, 23);  printf("            |    <     |     ㅣㅣ");
+    gotoxy(80, 24);  printf("            ＼   ∪    /     ㅣㅣ");
+    gotoxy(80, 25);  printf("             ￣￣l  l￣      ㅣㅣ ");
+    gotoxy(80, 26);  printf("          ㅣ￣￣￣  ￣￣￣ㅣ ㅣㅣ");
+    gotoxy(80, 27);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(80, 28);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(80, 29);  printf("          ㅣ            / ㅣ ㅣㅣ");
+    gotoxy(80, 30);  printf("          ∂ㅣ￣￣￣￣￣ㅣ/  ㅣㅣ");
+    gotoxy(80, 31);  printf("          ∂￣￣￣￣￣￣￣ㅣ ㅣㅣ");
+    gotoxy(80, 32);  printf("      / ￣￣￣￣￣/       /  ㅣㅣ");
+    gotoxy(80, 33);  printf("      /      /━━━━━          ㅣㅣ");
+    gotoxy(80, 34);  printf("     /  / /  / ㅣ￣￣￣￣￣￣  ㅣ");
+    gotoxy(80, 35);  printf("    /  / /  /   ￣￣￣ㅣ ㅣ￣￣￣");
+    gotoxy(80, 36);  printf("   /  / /  /          ㅣ ㅣ");
+    gotoxy(80, 37);  printf("  /  / /  /           ㅣ ㅣ");
+    gotoxy(80, 38);  printf("◀∽│◀∽│            ㅣ ㅣ");
+    gotoxy(80, 39);  printf("               ￣￣￣￣￣￣￣￣￣");
+}
+void gamec7() {
+    gotoxy(40, 20);  printf("             ////////＼");
+    gotoxy(40, 21);  printf("            ///////////＼     ㅡ");
+    gotoxy(40, 22);  printf("           (|  ⊙   ⊙ |)    ㅣㅣ");
+    gotoxy(40, 23);  printf("            |    ∇    |     ㅣㅣ");
+    gotoxy(40, 24);  printf("            ＼   ⊥    /     ㅣㅣ");
+    gotoxy(40, 25);  printf("             ￣￣l  l￣      ㅣㅣ ");
+    gotoxy(40, 26);  printf("          ㅣ￣￣￣  ￣￣￣ㅣ ㅣㅣ");
+    gotoxy(40, 27);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(40, 28);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(40, 29);  printf("          ㅣ            / ㅣ ㅣㅣ");
+    gotoxy(40, 30);  printf("          ∂ㅣ￣￣￣￣￣ㅣ/  ㅣㅣ");
+    gotoxy(40, 31);  printf("          ∂￣￣￣￣￣￣￣ㅣ ㅣㅣ");
+    gotoxy(40, 32);  printf("      / ￣￣￣￣￣/       /  ㅣㅣ");
+    gotoxy(40, 33);  printf("      /      /━━━━━          ㅣㅣ");
+    gotoxy(40, 34);  printf("     /  / /  / ㅣ￣￣￣￣￣￣  ㅣ");
+    gotoxy(40, 35);  printf("    /  / /  /   ￣￣￣ㅣ ㅣ￣￣￣");
+    gotoxy(40, 36);  printf("   /  / /  /          ㅣ ㅣ");
+    gotoxy(40, 37);  printf("  /  / /  /           ㅣ ㅣ");
+    gotoxy(40, 38);  printf("◀∽│◀∽│            ㅣ ㅣ");
+    gotoxy(40, 39);  printf("               ￣￣￣￣￣￣￣￣￣");
+}
+void gamec8() {
+    gotoxy(40, 20);  printf("              $$$$$$$$");
+    gotoxy(40, 21);  printf("            $$$$$$$$$$$$$     ㅡ");
+    gotoxy(40, 22);  printf("           (|  ○   ○ |)    ㅣㅣ");
+    gotoxy(40, 23);  printf("            |   〈     |     ㅣㅣ");
+    gotoxy(40, 24);  printf("            ＼   ㄴ    /     ㅣㅣ");
+    gotoxy(40, 25);  printf("             ￣￣l  l￣      ㅣㅣ ");
+    gotoxy(40, 26);  printf("          ㅣ￣￣￣  ￣￣￣ㅣ ㅣㅣ");
+    gotoxy(40, 27);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(40, 28);  printf("          ㅣ              ㅣ ㅣㅣ");
+    gotoxy(40, 29);  printf("          ㅣ            / ㅣ ㅣㅣ");
+    gotoxy(40, 30);  printf("          ∂ㅣ￣￣￣￣￣ㅣ/  ㅣㅣ");
+    gotoxy(40, 31);  printf("          ∂￣￣￣￣￣￣￣ㅣ ㅣㅣ");
+    gotoxy(40, 32);  printf("      / ￣￣￣￣￣/       /  ㅣㅣ");
+    gotoxy(40, 33);  printf("      /      /━━━━━          ㅣㅣ");
+    gotoxy(40, 34);  printf("     /  / /  / ㅣ￣￣￣￣￣￣  ㅣ");
+    gotoxy(40, 35);  printf("    /  / /  /   ￣￣￣ㅣ ㅣ￣￣￣");
+    gotoxy(40, 36);  printf("   /  / /  /          ㅣ ㅣ");
+    gotoxy(40, 37);  printf("  /  / /  /           ㅣ ㅣ");
+    gotoxy(40, 38);  printf("◀∽│◀∽│            ㅣ ㅣ");
+    gotoxy(40, 39);  printf("               ￣￣￣￣￣￣￣￣￣");
+}
 
 void introduce()        // 회원가입 안내사항
 {
-    printf("<회원가입 유의사항>\n\n");
-    printf("1. 아이디와 비밀번호의 길이는 10자이내로 합니다.\n");
-    printf("2. 아이디와 비밀번호는 소문자와 숫자의 조합으로 합니다.\n");
-    printf("3. 띄어쓰기는 불가능 합니다.\n\n");
+    chcolor(RED);
+    gotoxy(60, 14); printf("<회원가입 유의사항>\n\n");
+    gotoxy(60, 15); printf("1. 아이디와 비밀번호의 길이는 10자이내로 합니다.\n");
+    gotoxy(60, 16); printf("2. 아이디와 비밀번호는 소문자와 숫자의 조합으로 합니다.\n");
+    gotoxy(60, 17); printf("3. 띄어쓰기는 불가능 합니다.\n\n");
 }
 
 void join()   // id 만드는 함수
 {
+    chcolor(WHITE);
     char* str;
 
 rute:
 
-    printf("아이디를 입력하시오 : __________\b\b\b\b\b\b\b\b\b\b");
+    gotoxy(60, 21); printf("아이디를 입력하시오 : __________\b\b\b\b\b\b\b\b\b\b");
     scanf_s("%s", member->id, sizeof(member->id));          // member.id에 저장됨.
 
     str = member->id;                                       // member.id를 str에 옮김.
 
     if (strlen(str) == 0)                                   // 글자수 검사
     {
-        printf("글자수를 초과하였습니다.\n");
+        gotoxy(60, 23); printf("글자수를 초과하였습니다.\n");
+        system("cls");
+        GameSet();
         goto rute;
     }
 
@@ -58,7 +296,9 @@ rute:
     {
         if (isdigit(*(str + i)) == 0 && islower(*(str + i)) == 0)
         {
-            printf("소문자나 숫자의 조합이 아닙니다.\n");
+            gotoxy(60, 23); printf("소문자나 숫자의 조합이 아닙니다.\n");
+            system("cls");
+            GameSet();
             goto rute;
         }
     }
@@ -66,18 +306,21 @@ rute:
 
 void join2()   // password 만드는 함수
 {
+    chcolor(WHITE);
     char* str2;
 
 rute:
 
-    printf("비밀번호를 입력하시오 : __________\b\b\b\b\b\b\b\b\b\b");
+    gotoxy(60, 22); printf("비밀번호를 입력하시오 : __________\b\b\b\b\b\b\b\b\b\b");
     scanf_s("%s", member->pw, sizeof(member->pw));         // member.pw에 저장됨.
 
     str2 = member->pw;
 
     if (strlen(str2) == 0)                           // 글자수 검사
     {
-        printf("글자수를 초과하였습니다.\n");
+        gotoxy(60, 25); printf("글자수를 초과하였습니다.\n");
+        system("cls");
+        GameSet();
         goto rute;
     }
 
@@ -85,7 +328,9 @@ rute:
     {
         if (isdigit(*(str2 + i)) == 0 && islower(*(str2 + i)) == 0)
         {
-            printf("소문자나 숫자의 조합이 아닙니다.\n");
+            gotoxy(60, 25); printf("소문자나 숫자의 조합이 아닙니다.\n");
+            system("cls");
+            GameSet();
             goto rute;
         }
     }
@@ -93,6 +338,7 @@ rute:
 
 void login_main()       // login 화면
 {
+    chcolor(WHITE);
     int key;
     char id[length + 1];    // id 입력
     char pw[length + 1];    // password 입력
@@ -101,56 +347,146 @@ void login_main()       // login 화면
     int j = 1;
     while (1)
     {
-        printf("<sungkuyl of top 로그인>\n");
-        printf("로그인 시도 횟수 : %d\n\n", j);
-        printf("아이디 : ");
+        gotoxy(70, 21); printf("<sungkuyl of top 로그인>\n");
+        gotoxy(70, 22); printf("로그인 시도 횟수 : %d\n\n", j);
+        gotoxy(70, 23); printf("아이디 : ");
         scanf_s("%s", id, sizeof(id));
-        printf("비밀번호 : ");
+        gotoxy(70, 24); printf("비밀번호 : ");
         scanf_s("%s", pw, sizeof(pw));
         printf("\n");
-
         key = login(id, pw);
 
         i++;
         j++;
-
+        system("cls");
         if (key == 2)
         {
-            errno_t err;;
-            err = fopen_s(&fp, member->id, "wt");    // member.id를 토대로 앞으로 세이브할 파일을 생성. 
+            /* FILE* fp;
+             errno_t err;;
+             err = fopen_s(&fp, member->id, "wt");    // member.id를 토대로 앞으로 세이브할 파일을 생성.
 
-            if (fp == NULL)
-            {
-                printf("파일 생성에 실패하였습니다.\n");
-                printf("프로그램을 다시 실행하십시오.\n");
-                exit(1);
-            }
+             if (fp == NULL)
+             {
+                 printf("파일 생성에 실패하였습니다.\n");
+                 printf("프로그램을 다시 실행하십시오.\n");
+                 exit(1);
+             }*/
             break;
-
         }
 
         if (i == 6)
         {
-            printf("로그인 시도를 %d회이상 하였으므로\n", j - 1);
-            printf("30초후에 다시 시도하십시오.\n");
+            gotoxy(70, 25); printf("로그인 시도를 %d회이상 하였으므로\n", j - 1);
+            gotoxy(70, 26); printf("30초후에 다시 시도하십시오.\n");
             i = 1;
             Sleep(30000);
         }
     }
 
 }
+void gotoxy(int x, int y)   // 좌표 설정 함수
+{
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void chcolor(int co)      // 글자 색 입히기, co에 원하는 색 입력
+{
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), co);
+}
+
+void GameSet()
+{
+    int i;
+
+    chcolor(PURPLE);
+    gotoxy(3, 2);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
+    for (i = 3; i < 48; i++)
+    {
+        gotoxy(3, i); printf("■");
+        gotoxy(163, i); printf("■");
+    }
+
+    gotoxy(3, 48);  printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+}
+void StartGame()        // 게임 시작 화면
+{
+    chcolor(WHITE);         // 글자 색을 흰 색으로 변경
+    gotoxy(8, 5);  printf("            ■                 ■■    ■■■■■■■■         ■■             ■■■           ■■           ■■■■■■■■■■    ■■");
+    gotoxy(8, 6);  printf("          ■■■               ■■    ■■■■■■■■         ■■           ■■  ■■         ■■           ■■■■■■■■■■    ■■");
+    gotoxy(8, 7);  printf("        ■■  ■■             ■■                ■■   ■■■■■         ■■      ■■       ■■           ■■                    ■■    ");
+    gotoxy(8, 8);  printf("      ■■      ■■     ■■■■■                ■■   ■■■■■       ■■          ■■     ■■           ■■■■■■■■■■    ■■");
+    gotoxy(8, 9);  printf("    ■■          ■■   ■■■■■                ■■         ■■     ■■              ■■   ■■           ■■■■■■■■■■    ■■■■■■");
+    gotoxy(8, 10); printf("  ■■              ■■       ■■                ■■   ■■■■■       ■■          ■■     ■■           ■■                    ■■■■■■");
+    gotoxy(8, 11); printf("■■                  ■■     ■■                ■■   ■■■■■         ■■      ■■       ■■           ■■■■■■■■■■    ■■");
+    gotoxy(8, 12); printf("                               ■■                ■■         ■■           ■■  ■■         ■■           ■■■■■■■■■■    ■■");
+    gotoxy(8, 13); printf("                               ■■                             ■■             ■■■           ■■                                   ■■");
+    gotoxy(8, 14); printf("                    ■■■                     ■■■■■■■■                                   ■■              ■■            ■■ ■■");
+    gotoxy(8, 15); printf("                  ■■  ■■                   ■■■■■■■■                                   ■■              ■■            ■■              ");
+    gotoxy(8, 16); printf("                ■■      ■■                             ■■           ■■■■■■■■■■■■■■              ■■            ■■              ");
+    gotoxy(8, 17); printf("              ■■          ■■               ■■■■■■■■           ■■■■■■■■■■■■■■              ■■■■■■■■■■              ");
+    gotoxy(8, 18); printf("            ■■              ■■             ■■■■■■■■                                   ■■              ■■■■■■■■■■               ");
+    gotoxy(8, 19); printf("              ■■          ■■               ■■                                               ■■              ■■            ■■           ");
+    gotoxy(8, 20); printf("                ■■      ■■                 ■■■■■■■■                                                     ■■            ■■                ");
+    gotoxy(8, 20); printf("                  ■■  ■■                   ■■■■■■■■                                                     ■■■■■■■■■■                 ");
+    gotoxy(8, 21); printf("                    ■■■                                                                                          ■■■■■■■■■■");
+
+    gotoxy(60, 40); printf("-계속 진행하려면 [스페이스바]를 누르세요-");
+}
+
+void GameSelect()       // 게임 모드 선택
+{
+    chcolor(WHITE);         // 글자 색을 흰 색으로 변경
+    gotoxy(8, 5);  printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■                   ■                ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(8, 6);  printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■                 ■■■              ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(8, 7);  printf("  ■■                    ■■       ■■                                       ■■  ■■            ■■     ■■                        ■■    ■■");
+    gotoxy(8, 8);  printf("  ■■                    ■■       ■■                                     ■■      ■■    ■■■■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(8, 9);  printf("  ■■                    ■■       ■■                                   ■■          ■■  ■■■■■     ■■■■■■■■■■■■    ■■■■■■");
+    gotoxy(8, 10); printf("  ■■                    ■■       ■■                                 ■■              ■■      ■■     ■■                        ■■■■■■");
+    gotoxy(8, 11); printf("  ■■                    ■■       ■■                               ■■                  ■■    ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(8, 12); printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■     ■■                      ■■  ■■     ■■■■■■■■■■■■    ■■    ■■");
+    gotoxy(8, 13); printf("  ■■■■■■■■■■■■■■       ■■■■■■■■■■■■■■                                     ■■                                 ■■    ■■");
+    gotoxy(8, 14); printf("              ■■                                                                ■■                ■■                                  ");
+    gotoxy(8, 15); printf("              ■■                                                                ■■                                ■■■■■■■■■■■■   ");
+    gotoxy(8, 16); printf("              ■■                                                                ■■                                ■■■■■■■■■■■■    ");
+    gotoxy(8, 17); printf("              ■■                                                                ■■                                                    ■■");
+    gotoxy(8, 18); printf("              ■■                                                                ■■                                                    ■■");
+    gotoxy(8, 19); printf("              ■■                                                                ■■                                                    ■■");
+    gotoxy(8, 20); printf("■■■■■■■■■■■■■■■■■  ■■■■■■■■■■■■■■■■              ■■■■■■■■■■■■■                              ■■");
+    gotoxy(8, 21); printf("■■■■■■■■■■■■■■■■■  ■■■■■■■■■■■■■■■■              ■■■■■■■■■■■■■                              ■■");
+
+    gotoxy(70, 30); printf("1. 게임 아이디 생성 후 게임 시작");
+    gotoxy(70, 35); printf("2. 게임 이어서 하기");
+    gotoxy(70, 40); printf("-[1] 또는 [2] 를 입력해주세요-\n");
+}
+
+void RedRain()
+{
+    int i;
+
+    for (i = 4; i < 47; i++)        // 빨간 색을 비처럼 내리게 출력 후 화면 전환
+    {
+        chcolor(RED);
+        gotoxy(5, i); printf("  ■■     ■■ ■■       ■■  ■■■     ■■■     ■■■     ■■  ■  ■■■    ■■  ■ ■■  ■    ■  ■■  ■■  ■■  ■■    ■■■  ■■  ■  ■");
+        Sleep(100);
+    }
+    chcolor(WHITE);
+}
 
 int login(char id[], char pw[])             // 로그인 체크
 {
+    chcolor(WHITE);
     if (strcmp(id, member->id) == 0 && strcmp(pw, member->pw) == 0)
     {
-        printf("\n로그인이 완료 되었습니다!\n\n");
+        gotoxy(70, 25); printf("\n로그인이 완료 되었습니다!\n\n");
         return 2;
     }
 
     else
     {
-        printf("로그인에 실패하였습니다!\n\n");
+        gotoxy(70, 25); printf("로그인에 실패하였습니다!\n\n");
         return 3;
     }
 }
@@ -158,30 +494,47 @@ int login(char id[], char pw[])             // 로그인 체크
 void story()
 {
     char* str;
-    str = "2023년 4월 13일 목요일 성결대학교";
+    chcolor(RED);
+    gotoxy(70, 21); str = "2023년 4월 13일 목요일 성결대학교";
     for (int i = 0; i < strlen(str); i++)
     {
         if (i <= 16)
         {
             printf("%c", *(str + i));
-            //Sleep(100);
+            Sleep(300);
         }
         if (i >= 17)
         {
             printf("%c", *(str + i));
         }
     }
-
+    system("cls");
+    GameSet();
+    chcolor(RED);
     printf("\n\n");
-    str = "사건 시간 : 4월 10일 21시";
+    gotoxy(70, 21); str = "사건 시간 : 4월 10일 21시";
     for (int i = 0; i < strlen(str); i++)
     {
         printf("%c", *(str + i));
-        //Sleep(100);
+        Sleep(100);
     }
-
     printf("\n\n");
-    str = "사건 장소 : 재림관 1층";
+    system("cls");
+    GameSet();
+    chcolor(RED);
+    gotoxy(70, 21); str = "사건 장소 : 재림관 1층";
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", *(str + i));
+        Sleep(100);
+    }
+    printf("\n");
+    intro();
+    drop();
+    system("cls");
+    GameSet();
+    chcolor(RED);
+    gotoxy(45, 21); str = "재림관 옥상에서 정보통신공학과 학우들의 의문의 단체자살 사건이 일어난다";
     for (int i = 0; i < strlen(str); i++)
     {
         printf("%c", *(str + i));
@@ -191,8 +544,9 @@ void story()
 
     _getch();
     system("cls");
-
-    str = "재림관 옥상에서 정보통신공학과 학우들의 의문의 단체자살 사건이 일어난다";
+    GameSet();
+    chcolor(RED);
+    gotoxy(45, 21); str = "죽은 사람은 총 3명으로 모두 옥상에서 떨어져 끔찍한 몰골로 죽었다.";
     for (int i = 0; i < strlen(str); i++)
     {
         printf("%c", *(str + i));
@@ -202,19 +556,9 @@ void story()
 
     _getch();
     system("cls");
-
-    str = "죽은 사람은 총 3명으로 모두 옥상에서 떨어져 끔찍한 몰골로 죽었다.";
-    for (int i = 0; i < strlen(str); i++)
-    {
-        printf("%c", *(str + i));
-        //Sleep(100);
-    }
-    printf("\n");
-
-    _getch();
-    system("cls");
-
-    str = "그곳에는 너무 가혹한 프로그래밍언어(1) 수업으로 인하여 자살한다는 유서가 적혀 있었다.";
+    GameSet();
+    chcolor(RED);
+    gotoxy(45, 21); str = "그곳에는 너무 가혹한 프로그래밍언어(1) 수업으로 인하여 자살한다는 유서가 적혀 있었다.";
     for (int i = 0; i < strlen(str); i++)
     {
         printf("%c", *(str + i));
@@ -222,36 +566,344 @@ void story()
     }
     printf("\n");
 }
+void intro()   // 게임 인트로 (재림관)
+{
+    chcolor(DARKGREEN);
+    gotoxy(40, 20);  printf(" ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣");
+    gotoxy(40, 21);  printf(" ▣    □     □ † □□□□   □†        □  □ †  □□    □  †  □□□□□ ▣");
+    gotoxy(40, 22);  printf(" ▣  □ □  □□ †      □  □□† □□□ □  □ †          □  †          □ ▣");
+    gotoxy(40, 23);  printf(" ▣ □   □   □ †    □      □† □     □  □ †  □□    □□†          □ ▣");
+    gotoxy(40, 24);  printf(" ▣              †          □□† □     □□□ † □  □   □  †          □ ▣");
+    gotoxy(40, 25);  printf(" ▣      □□    †   □□□□ □† □     □  □ †  □□    □  †   □  □    ▣");
+    gotoxy(40, 26);  printf(" ▣     □  □   †         □   † □□□ □  □ †              †   □  □    ▣");
+    gotoxy(40, 27);  printf(" ▣      □□    †   □□□□   †        □  □ †   □□□□   † □□□□□  ▣");
+    gotoxy(40, 28);  printf(" ▣              †   □         †               †         □   †             ▣");
+    gotoxy(40, 29);  printf(" ▣              †   □□□□   †               †         □   †             ▣");
+    gotoxy(40, 30);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 31);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 32);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 33);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 34);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 35);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 36);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 37);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 38);  printf(" ▣□□▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒▒▒▒▒▒▒†▒▒▒▒▒▒▒▒ □□▣");
+    gotoxy(40, 39);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 40);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 41);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 42);  printf(" ▣■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■▣");
+    gotoxy(40, 43);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 44);  printf(" ▣◈◈◈◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈◈†◈◈◈◈◈◈◈†◈◈◈ ◈◈◈▣");
+    gotoxy(40, 45);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩▩▩▩▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 46);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 47);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    gotoxy(40, 47);  printf(" ▣▩▩▩▩▩▩▩†▩▩▩▩▩▩▩†▩▩      ▩▩ †▩▩▩▩▩▩▩†▩▩▩ ▩▩▩▣");
+    chcolor(BLUE);
+    gotoxy(43, 21);  printf("    □     □ † □□□□   □†        □  □ †  □□    □  †  □□□□□");
+    gotoxy(43, 22);  printf("  □ □  □□ †      □  □□† □□□ □  □ †          □  †          □");
+    gotoxy(43, 23);  printf(" □   □   □ †    □      □† □     □  □ †  □□    □□†          □");
+    gotoxy(43, 24);  printf("              †          □□† □     □□□ † □  □   □  †          □");
+    gotoxy(43, 25);  printf("      □□    †   □□□□ □† □     □  □ †  □□    □  †   □  □   ");
+    gotoxy(43, 26);  printf("     □  □   †         □   † □□□ □  □ †              †   □  □   ");
+    gotoxy(43, 27);  printf("      □□    †   □□□□   †        □  □ †   □□□□   † □□□□□ ");
+    gotoxy(43, 28);  printf("              †   □         †               †         □   †            ");
+    gotoxy(43, 29);  printf("              †   □□□□   †               †         □   †            ");
+    chcolor(DARKBLUE);
+    gotoxy(42, 31);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+    gotoxy(42, 34);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+    gotoxy(42, 39);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+    gotoxy(42, 42);  printf(" ■■■■■■■†■■■■■■■†■■■ ■■■■†■■■■■■■†■■■ ■■■");
+}
+void game1()
+{
+    int cnt = 0;
 
+    int x = 0, y = 0;
+    char keydown;
+
+    while (1)
+    {
+        if (gameover(y, x))
+        {
+            cnt = 0;
+        }
+        //player(y);     // 케릭터 초기 위치 40
+        if (_kbhit())   // 키보드를 눌렀는지 확인 , 눌렀으면 참, 안 눌렀으면 거짓
+        {
+            keydown = _getch();
+            if (keydown == Space)       // 누른 키가 스페이스바일 경우 점프, 다른 키일 경우 변화 x
+            {
+                while (1)           // 플레이어 상승
+                {
+                    GameSet();
+                    stairs(x);
+                    if (x != 132)       // 장애물 출력
+                    {
+                        x++;
+                    }
+                    else
+                        x = 0;
+
+                    player(y);
+                    y--;
+                    Sleep(10);
+                    system("cls");
+                    if (y == -12)
+                        break;
+                }
+
+                while (1)       // 플레이어 하강
+                {
+
+                    GameSet();
+                    stairs(x);
+                    if (x != 132)       // 장애물 관련
+                    {
+                        x++;
+                    }
+                    else
+                        x = 0;
+
+                    player(y);
+                    Sleep(10);
+                    system("cls");
+                    y++;
+                    if (y == 0)
+                        break;
+                }
+
+            }
+        }
+        if (x != 132)       // 장애물 관련
+        {
+            x++;
+        }
+        else
+            x = 0;
+
+        chcolor(WHITE);
+        gotoxy(140, 5); printf("600달성시 게임 클리어");
+        gotoxy(140, 6); printf("현재 내 점수 : %d", cnt++);
+        if (cnt == 600)     // cnt가 600이 되면 게임 클리어
+        {
+            break;
+        }
+        GameSet();
+        player(y);
+        stairs(x);
+        Sleep(10);
+        system("cls");
+    }
+    system("cls");      // 게임 클리어시 여기로 빠져나옴
+    GameSet();
+    gotoxy(20, 20); printf("여기에 내용 이어서,,,");
+}
+
+int gameover(int player, int stairs)
+{
+    if (player <= 0 && player >= -7 && stairs >= 119 && stairs <= 132)      // 플레이어와 장애물의 충돌 범위 설정
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+void player(int y)      // 캐릭터 그리기
+{
+    chcolor(DARKGRAY);
+    gotoxy(12, 30 + y); printf("     $$$$$$ \n");
+    gotoxy(12, 31 + y); printf("    $//////$ \n");
+    chcolor(WHITE);
+    gotoxy(12, 32 + y); printf("   (|◎  ◎|)  \n");
+    gotoxy(12, 33 + y); printf("    ＼ ⌒  /  \n");
+    gotoxy(12, 34 + y); printf("     ￣||￣ \n");
+    chcolor(SKYBLUE);
+    gotoxy(12, 35 + y); printf("  /￣  */￣￣|＼\n");
+    gotoxy(12, 36 + y); printf(" /|    /     | | \n");
+    gotoxy(12, 37 + y); printf("＼|   /*     | |\n");
+    gotoxy(12, 38 + y); printf("  |＼/ *     |/\n");
+    gotoxy(12, 39 + y); printf("  |  ＼*    /|\n");
+    chcolor(DARKGRAY);
+    gotoxy(12, 40 + y); printf("  |￣￣￣￣￣| \n");
+    gotoxy(12, 41 + y); printf("  |    /＼   |\n");
+    gotoxy(12, 42 + y); printf("  |   |  |   |\n");
+    gotoxy(12, 43 + y); printf("  |   |  |   |\n");
+    gotoxy(12, 44 + y); printf("  |   |  |   |\n");
+    gotoxy(12, 45 + y); printf("  |￣￣| |￣￣|\n");
+    gotoxy(12, 46 + y); printf("  |§  ▶|§  ▶\n");
+    gotoxy(12, 47 + y); printf("   ￣￣   ￣￣\n");
+}
+
+void stairs(int x)      // 장애물 출력
+{
+    chcolor(DARKGRAY);
+    gotoxy(140 - x, 43); printf("        ■");
+    gotoxy(140 - x, 44); printf("      ■■");
+    gotoxy(140 - x, 45); printf("    ■■■");
+    gotoxy(140 - x, 46); printf("  ■■■■");
+    gotoxy(140 - x, 47); printf("■■■■■");
+}
+void drop()     // 재림관에서 3명의 자살 사건
+{
+    int i = 0;
+    chcolor(WHITE);
+
+    chcolor(GRAY);
+    gotoxy(88, 20); printf("옷");
+    gotoxy(86, 20); printf("옷");
+    gotoxy(84, 20); printf("옷");
+
+
+    while (1)
+    {
+        system("cls");
+        GameSet();
+        intro();
+        chcolor(RED);
+        gotoxy(88, 20 + i); printf("옷");
+        gotoxy(86, 20 + i); printf("옷");
+        gotoxy(84, 20 + i); printf("옷");
+
+        Sleep(200);
+
+        i++;
+        if (i == 27)
+            break;
+    }
+    system("cls");
+    GameSet();
+    intro();
+
+    chcolor(RED);
+    gotoxy(91, 41); printf("▦");
+    gotoxy(90, 42); printf("▦▦");
+    gotoxy(89, 43); printf("▦▦▦");
+    gotoxy(88, 44); printf("▦▦▦▦");
+    gotoxy(87, 45); printf("▦▦▦▦▦");
+    gotoxy(86, 46); printf("▦▦▦▦▦▦");
+    gotoxy(85, 47); printf("▦▦▦▦▦▦▦");
+
+    chcolor(WHITE);
+}
+void story2()
+{
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    chcolor(RED);
+    gotoxy(45, 40); printf("현재\n");
+    gotoxy(45, 41); printf("(형사) : 학생들이 프로그래밍언어(1) 수업에서\n");
+    gotoxy(45, 42); printf("(형사) : 스트레스를 너무 많이 받아서 같이 자살을 도모했다더군\n");
+    gotoxy(45, 43); printf("(형사) : 너도 그 수업을 수강하고 있지? \n");
+    gotoxy(45, 44); printf("(형사) : 어때? 그 정도로 심했니?\n\n\n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(%s) : 아... 교수님들이 많이 심하시긴 하셨어요.....\n", member->user);
+    gotoxy(45, 41); printf("매일 같이 과제에...실습에...팀플까지!\n");
+    gotoxy(45, 42); printf("모두가 힘들어 했어요...\n\n\n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(형사) : 그래? 너는 떨어진 3명과 같은 팀플 조원이더군,\n");
+    gotoxy(45, 41); printf("(형사) : 혹시 팀플에서는 아무런 문제가 없었니?\n\n\n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(%s) : 서로 항상 너무 많은 과제를 내주시는 교수님에 대해 안좋게 말을 했어요...\n", member->user);
+    gotoxy(45, 41); printf("(%s) : 저희는 잘못이 없다면서 말이죠...\n\n\n\n", member->user);
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(형사) : 음.., 그렇구나 교수님들께서는 절대 그렇지 않다고들 말씀하시던데???\n");
+    gotoxy(45, 41); printf("(형사) : 오히려 너가 팀플에서 마음대로 행동해서 그 친구들이 힘들어 했다더구나.\n\n\n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(%s) : 아니예요! 저는 정말 항상 최선을 다했어요!!!\n", member->user);
+    gotoxy(45, 41); printf("(%s) : 믿어주세요!!!\n\n\n\n", member->user);
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(형사) : 그럼 교수님들과 한번 상담을 해보겠니?\n");
+    gotoxy(45, 41); printf("(형사) : 그러고 나서 만든 상담일지를 나에게 가져다주렴.\n\n\n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gamec2();
+    gamec3();
+    chcolor(RED);
+    gotoxy(45, 40); printf("(%s) : 후...알겠어요!\n", member->user);
+    gotoxy(45, 41); printf("(%s) : 하지만 진짜 저 때문이 아니에요! 믿어주세요!\n\n\n\n", member->user);
+
+    _getch();
+    system("cls");
+    GameSet();
+    chcolor(RED);
+    gotoxy(20, 20); printf("\t\t\t\t\t\t\t1층 문형진교수님을 만나러가는 계단\n\n");
+    gotoxy(20, 21); printf("\t\t\t\t\t\t\tstrat!\n\n");
+}
 void make_username()       // 닉네임 만드는 함수
 {
     char uname[100] = { "" };             // 닉네임을 임시 저장할 포인터 변수
     char s;                               // 입력한 키를 받을 변수
     int k = 0;                            // 닉네임이 소문자로만 이루어져있을때 주는 키 값
-    printf("억울한 누명을 해결하겠습니까?(Y or N)\n");
+    
+    chcolor(RED);
+    gotoxy(60, 20); printf("억울한 누명을 해결하겠습니까?(Y or N)\n");
     s = _getch();                         // 키를 입력 받고 s변수에 저장
     if (s == 'y' || s == 'Y')
     {
-        printf("<주의사항>\n\n");
-        printf("-이름은 소문자만 사용가능.\n");
-        printf("-이름은 10글자 내외로 설정합니다.\n\n");
-
-    user:
-        printf("학생의 이름을 설정하십시오 : ");
+        system("cls");
+        GameSet();
+        chcolor(RED);
+     gotoxy(60, 18); printf("<주의사항>\n\n");
+     gotoxy(60, 19);    printf("-이름은 소문자만 사용가능.\n");
+     gotoxy(60, 20);    printf("-이름은 10글자 내외로 설정합니다.\n\n");
+ user:
+     chcolor(WHITE);
+     gotoxy(60, 22);   printf("학생의 이름을 설정하십시오 : ");
         scanf_s("%s", uname, sizeof(uname));
 
         if ((int)strlen(uname) > 10)              // 설정한 이름의 길이가 10보다 큰 지 확인
         {
-            printf("이름의 길이가 10글자가 넘습니다.\n\n");
-
-            goto user;                      
+            chcolor(RED);
+            gotoxy(60, 23); printf("이름의 길이가 10글자가 넘습니다.\n\n");
+            goto user;
         }
 
         for (i = 0; i < strlen(uname); i++)       // 설정한 이름의 길이 만큼 for문 
         {
             if ((int)islower(*(uname + i)) == 0)    // 설정한 이름의 인덱스를 하나하나 조사하여 소문자인지 확인, 소문자가 아닌 경우 0을 반환
             {
-                printf("이름은 영문 소문자로만 가능합니다.\n\n");
+                chcolor(RED);
+                gotoxy(60, 24); printf("이름은 영문 소문자로만 가능합니다.\n\n");
                 goto user;
             }
         }
@@ -260,57 +912,594 @@ void make_username()       // 닉네임 만드는 함수
         {
             if ((int)islower(*(uname + i)) != 0)
             {
-                 k = 789;           // 소문자로만 이루어져 있을때 키을 지정.
+                k = 789;           // 소문자로만 이루어져 있을때 키을 지정.
             }
         }
         if ((int)strlen(uname) <= 10)
         {
             if (k == 789)
             {
-                printf("\n이름을 \"%s\" 으로 설정하시겠습니까?(Y / N)\n", uname);
+                system("cls");
+                GameSet();
+                chcolor(WHITE);
+                gotoxy(60, 22); printf("\n이름을 \"%s\" 으로 설정하시겠습니까?(Y / N)\n", uname);
                 s = _getch();
                 if (s == 'Y' || s == 'y')
                 {
-                    system("cls");
                     strcpy_s(member->user, sizeof(member->user), uname);      // str값을 구초제 member.user에 저장
-                    printf("\"%s\"으로 닉네임이 설정되었습니다.\n\n", member->user);
-                    printf("사건 현장으로 되돌아갑니다.\n");
+                    gotoxy(60, 23);   printf("\"%s\"으로 닉네임이 설정되었습니다.\n\n", member->user);
+                    gotoxy(60, 24);   printf("사건 현장으로 되돌아갑니다.\n");
                 }
             }
         }
     }
-    s = _getch();
+
     if (s == 'N' || s == 'n')
     {
-        printf("무기징역을 선고합니다. 게임하지마세요~\n");
-        fclose(fp);
+        gotoxy(60, 23);    printf("무기징역을 선고합니다. 게임하지마세요~ >_<\n");
+        //fclose(fp);
         exit(1);
     }
 }
 
+int way[15][79] =   // 복도, 1은 벽. 9는 복도의 끝지점, 2는 캐릭터, 8은 힌트주는 캐릭터, 3은 힌트 주변 도착시 힌트 제공할 수 있도록 만듦
+{
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,7,8,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+
+};
+
+void drawway()      // 복도를 그리는 함수
+{
+    int i, j, y = 18, k = 0;
+
+    for (i = 0; i < 15; i++)
+    {
+        gotoxy(5, y++);
+
+        for (j = 0; j < 79; j++)
+        {
+            chcolor(SKYBLUE);
+            k = way[i][j];
+
+            switch (k)
+            {
+            case 0:
+                printf("  ");
+                break;
+            case 1:
+                printf("▤");
+                break;
+            case 2:
+                chcolor(WHITE);
+                printf("옷");
+                break;
+            case 3:
+                printf("  ");
+                break;
+            case 7:
+                chcolor(RED);
+                printf("OT");
+                break;
+            case 8:
+                chcolor(RED);
+                printf("L ");
+                break;
+
+            case 9:
+                chcolor(YELLOW);
+                printf("▦");
+                break;
+            }
+        }
+    }
+}
+
+void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
+{
+    int site;
+    int x = 5, y = 0;       // 처음 캐릭터의 위치
+
+    while (1)           // 미로 게임과 원리가 같다
+    {
+        drawway();
+        site = _getch();
+
+        switch (site)
+        {
+        case 224:
+
+            site = _getch();
+
+            switch (site)       // 이동 가능한 곳이면 플레이어를 움직이고, 이전에 있던 곳은 0으로 바꿔준다.
+            {
+            case RIGHT:
+                y++;
+                if (way[x][y] == 0)   // 이동할 수 있는 좌표
+                {
+                    way[x][y] = 2;
+                    way[x][y - 1] = 0;
+
+                }
+                else if (way[x][y] == 3)    // 3에 도착하면 3,7,8을 0으로 바꿔준다.
+                {
+                    way[13][49] = 0;
+                    way[13][50] = 0;
+                    way[13][48] = 0;
+                    way[12][49] = 0;
+                    way[12][50] = 0;
+                    way[13][51] = 0;
+
+                    way[x][y - 1] = 0;
+
+                    way[x][y] = 2;
+                    chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                }
+                else if (way[x][y] == 1)  // 이동할 수 없는 좌표
+                {
+                    y--;
+                }
+                break;
+            case LEFT:
+                y--;
+                if (y == -1)
+                {
+                    y++;
+                    continue;
+                }
+                else if (way[x][y] == 0)
+                {
+                    way[x][y] = 2;
+                    way[x][y + 1] = 0;
+                }
+                else if (way[x][y] == 3)
+                {
+                    way[13][49] = 0;
+                    way[13][50] = 0;
+                    way[13][48] = 0;
+                    way[12][49] = 0;
+                    way[12][50] = 0;
+                    way[13][51] = 0;
+
+                    way[x][y + 1] = 0;
+
+                    way[x][y] = 2;
+                    chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+
+
+
+                }
+                else if (way[x][y] == 1)
+                {
+                    y++;
+                }
+                break;
+            case UP:
+                x--;
+                if (x == -1)    // 2차원 배열에서 -1값이 나올 순 없으므로, -1이 나오면 건너뛰고 진행하도록 설정
+                {
+                    x++;
+                    continue;
+                }
+                else if (way[x][y] == 0)
+                {
+                    way[x][y] = 2;
+                    way[x + 1][y] = 0;
+                }
+                else if (way[x][y] == 3)
+                {
+                    way[13][49] = 0;
+                    way[13][50] = 0;
+                    way[13][48] = 0;
+                    way[12][49] = 0;
+                    way[12][50] = 0;
+                    way[13][51] = 0;
+
+                    way[x + 1][y] = 0;
+
+                    way[x][y] = 2;
+                    chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                }
+                else if (way[x][y] == 1)
+                {
+                    x++;
+                }
+                break;
+            case DOWN:
+                x++;
+                if (way[x][y] == 0)
+                {
+                    way[x][y] = 2;
+                    way[x - 1][y] = 0;
+                }
+                else if (way[x][y] == 3)
+                {
+                    way[13][49] = 0;
+                    way[13][50] = 0;
+                    way[13][48] = 0;
+                    way[12][49] = 0;
+                    way[12][50] = 0;
+                    way[13][51] = 0;
+
+                    way[x - 1][y] = 0;
+
+                    way[x][y] = 2;
+                    chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+                    _getch();
+                    system("cls");
+                    drawway();
+                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                }
+                else if (way[x][y] == 1)
+                {
+                    x--;
+                }
+                break;
+            }
+        }
+        if (way[x][y] == 9)        // 플레이어가 종점에 도착했을 경우
+        {
+            way[x][y] = 2;
+            system("cls");
+            GameSet();
+
+            chcolor(WHITE); gotoxy(20, 10); printf("게임 끝");
+            break;
+        }
+    }
+}
+
+void WalkWay()      // 복도벽에 써있는 글씨
+{
+
+
+
+    chcolor(RED);      //복도 위쪽 벽
+    gotoxy(35, 5);  printf("■            ■     ■■■■■■■■     ■                   ■                        ■");
+    gotoxy(35, 6);  printf("■            ■     ■                   ■                   ■                      ■  ■");
+    gotoxy(35, 7);  printf("■            ■     ■                   ■                   ■                    ■      ■ ");
+    gotoxy(35, 8);  printf("■            ■     ■                   ■                   ■                  ■          ■");
+    gotoxy(35, 9);  printf("■            ■     ■                   ■                   ■                ■              ■     ");
+    gotoxy(35, 10); printf("■■■■■■■■     ■■■■■■■■     ■                   ■              ■                  ■");
+    gotoxy(35, 11); printf("■            ■     ■                   ■                   ■                ■              ■");
+    gotoxy(35, 12); printf("■            ■     ■                   ■                   ■                  ■          ■");
+    gotoxy(35, 13); printf("■            ■     ■                   ■                   ■                    ■      ■");
+    gotoxy(35, 14); printf("■            ■     ■                   ■                   ■                      ■  ■");
+    gotoxy(35, 15); printf("■            ■     ■■■■■■■■     ■■■■■■■■     ■■■■■■■            ■");
+
+    chcolor(RED);      //복도 아래 벽에 써있는 글씨
+    gotoxy(35, 36); printf("■■■                   ■■■       ■■■            ■■■■        ■              ■■■■");
+    gotoxy(35, 37); printf("  ■                       ■       ■      ■          ■     ■       ■              ■      ■");
+    gotoxy(35, 38); printf("   ■                     ■      ■          ■        ■      ■      ■              ■       ■  ");
+    gotoxy(35, 39); printf("    ■                   ■     ■              ■      ■     ■       ■              ■        ■");
+    gotoxy(35, 40); printf("     ■                 ■    ■                  ■    ■■■■        ■              ■         ■");
+    gotoxy(35, 41); printf("      ■      ■       ■     ■                  ■    ■     ■       ■              ■         ■");
+    gotoxy(35, 42); printf("       ■    ■■     ■        ■              ■      ■      ■      ■              ■        ■");
+    gotoxy(35, 43); printf("        ■  ■  ■  ■            ■          ■        ■       ■     ■              ■       ■");
+    gotoxy(35, 44); printf("         ■■    ■■               ■      ■          ■        ■    ■              ■      ■ ");
+    gotoxy(35, 45); printf("          ■      ■                  ■■■            ■         ■   ■■■■■■    ■■■■");
+}
+
+void room()     // 사무실 꾸미기 
+{
+    int i;
+
+    chcolor(WHITE);
+    gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
+    gamec5();
+    gotoxy(5, 35);              // 문제를 출제할 공간
+    for (i = 0; i < 79; i++)
+    {
+        chcolor(WHITE); printf("■");
+    }
+}
+
+int map[45][63] =      // 미로 설정,  캐릭터 시작 위치는 9, 종점은 10.
+{
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {9,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,1,1},
+    {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,1,1,0,1,1,0,0,1,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,1,0,0,1},
+    {1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,0,1,1,1,0,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,0,0,1,0,0,1,0,1,1},
+    {1,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,0,1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1,1,0,0,1},
+    {1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1,1,0,0,0,0,1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,1,1,0,1,1,0,1,0,0,1,1},
+    {1,0,1,1,1,1,1,0,1,1,0,0,1,0,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,1,0,1,1,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,0,0,1},
+    {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0,1,1,1,1,0,1,0,1,1,1,1,0,1,1,0,1,0,0,0,1,1,1,0,1,0,1,1,0,0,1,0,1,0,1,1,1},
+    {1,1,1,1,0,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,0,1,0,1,1,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,1,1,0,1,0,1,0,1},
+    {1,0,0,0,0,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,1,1,0,0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,0,0,0,0,1},
+    {1,0,1,1,0,0,1,0,1,0,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,0,0,0,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,0,1},
+    {1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,1,0,0,1,1,1,1,0,1,1,0,0,0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,0,0,1},
+    {1,0,1,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,0,0,1,1,0,1,1,0,1,1,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,0,1},
+    {1,0,1,0,0,0,1,0,1,1,1,1,1,0,1,0,0,1,1,1,1,1,0,1,1,0,0,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,0,0,0,0,1},
+    {1,1,1,1,1,0,1,0,1,0,0,0,1,0,1,0,1,1,0,0,0,1,0,0,0,0,1,1,0,0,1,0,1,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,1,1,1,0,1,0,1,0,1,1,0,1},
+    {1,1,0,0,0,0,1,1,1,0,1,1,1,1,1,0,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,0,0,0,0,1,0,1,0,0,1,0,1},
+    {1,1,0,1,1,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1,1,1,1,0,0,1,0,1,1,0,1},
+    {1,0,0,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,1,1,0,0,0,1,1},
+    {1,0,1,1,1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,0,1,1,0,1,0,0,1,1,1,1,0,1,0,0,1,1,0,1,1},
+    {1,0,1,1,0,0,1,0,1,1,1,1,1,1,0,1,0,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,1,1,0,0,1,1},
+    {1,0,1,1,0,1,1,0,0,1,0,0,0,0,0,1,0,0,1,0,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1,1,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,0,1,1},
+    {1,0,0,1,0,1,1,1,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,1,1,0,1,1,1,1,1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1},
+    {1,1,0,1,0,0,0,1,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,1,0,1,1,1,0,0,0,1,1,0,1,1,0,1,1,1,1,1,1,1,0,0,0,1,1,0,1,1,1,1,0,1,0,1,1},
+    {1,1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,0,1,1,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,1,0,1,0,0,1},
+    {1,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,1,0,1,1,1,0,1,0,1,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,0,1,1,1,1},
+    {1,1,0,1,0,1,0,1,0,0,0,1,0,1,1,0,1,0,0,0,0,0,1,0,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1},
+    {1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,0,1},
+    {1,0,0,1,1,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,1,1,1,1,0,1},
+    {1,0,1,1,0,0,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0,0,1,1,1,0,1,0,1,0,0,0,1,0,0,1},
+    {1,0,1,1,1,1,1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,1,0,1,0,1,0,1,1,1,1,0,1},
+    {1,0,0,0,0,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,0,0,1,1,1,0,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1},
+    {1,0,1,1,1,0,0,0,0,1,1,1,1,0,1,0,1,1,0,1,0,1,1,0,1,1,1,0,1,1,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0,0,1},
+    {1,0,1,1,1,0,1,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1},
+    {1,0,0,1,0,0,1,0,1,0,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1,1},
+    {1,0,1,1,1,0,1,0,1,0,0,1,1,0,1,0,0,0,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,1,0,1,1,0,0,1,0,1,1,1,1,0,1,0,0,1,0,1,1},
+    {1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,1,1,0,1,0,1,1,1,0,0,1,1},
+    {1,1,0,1,1,0,1,0,0,1,0,1,1,0,1,0,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,1,1},
+    {1,1,0,0,1,1,0,1,1,1,0,1,0,0,1,0,0,1,0,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,1,1,1,1,0,1,0,1,1,1,1,0,1,1,0,1,0,0,1},
+    {1,1,0,0,1,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1,1,0,0,0,0,0,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,0,1,0,0,1,1,0,1,0,1,1,0,1},
+    {1,1,1,0,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,1,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,0,0,1,0,1,0,1,0,1,1,1,1,1},
+    {1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,0,0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,1,1,0,1,1,1,1,1,0,0,0,1},
+    {1,0,0,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,0,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0,1,0,1,1,1,0,1,0,0,0,0,0,1,0,1,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1,0,0,1,0,0,0,0,0,1,0,1,1,1,0,0,0,1,0,10},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+};
+
+
+void drawmap()      // 미로 그리는 함수
+{
+    int i, j, k = 0, y = 3;     // i,j는 2차원 배열에 저장된 값을 하나씩 확인하여, k에 저장하고 for()문을 이용하여 미로 출력, y는 y좌표를 설정하기 위해 사용
+
+    for (i = 0; i < 45; i++)
+    {
+        chcolor(WHITE);
+        gotoxy(21, y++);    // 이 위치부터 미로를 그리기 시작함, y값을 증가시켜 다음 줄로 넘어가도록 함
+
+        for (j = 0; j < 63; j++)
+        {
+            chcolor(WHITE);
+            k = map[i][j];
+            switch (k)
+            {
+            case 0:
+                printf("  ");
+                break;
+            case 1:
+                printf("■");    // 1이면 벽을 출력
+                break;
+            case 9:
+                chcolor(RED);
+                printf("●");    // 9이면 플레이어를 빨간색으로 출력
+                break;
+            case 10:            // 10이면 종점을 노란색으로 출력
+                chcolor(YELLOW);
+                printf("▲");
+                break;
+            }
+        }
+    }
+}
+
+void move_miro()        // 미로 게임 플레이
+{
+    int site;
+    int x = 1, y = 0;       // 처음 캐릭터의 위치
+
+    while (1)
+    {
+        drawmap();
+        site = _getch();
+
+        switch (site)
+        {
+        case 224:
+
+            site = _getch();
+
+            switch (site)       // 이동 가능한 곳이면 플레이어를 움직이고, 이전에 있던 곳은 0으로 바꿔준다.
+            {
+            case RIGHT:
+                y++;
+                if (map[x][y] == 0)
+                {
+                    map[x][y] = 9;
+                    map[x][y - 1] = 0;
+                }
+                else if (map[x][y] == 1)
+                {
+                    y--;
+                }
+                break;
+            case LEFT:      // 왼쪽과 위에키만 문제 발견
+                y--;
+                if (y == -1)
+                {
+                    y++;
+                    continue;
+                }
+                else if (map[x][y] == 0)
+                {
+                    map[x][y] = 9;
+                    map[x][y + 1] = 0;
+                }
+                else if (map[x][y] == 1)
+                {
+                    y++;
+                }
+                break;
+            case UP:
+                x--;
+                if (x == -1)    // 2차원 배열에서 -1값이 나올 순 없으므로, -1이 나오면 건너뛰고 진행하도록 설정
+                {
+                    x++;
+                    continue;
+                }
+                else if (map[x][y] == 0)
+                {
+                    map[x][y] = 9;
+                    map[x + 1][y] = 0;
+                }
+                else if (map[x][y] == 1)
+                {
+                    x++;
+                }
+                break;
+            case DOWN:
+                x++;
+                if (map[x][y] == 0)
+                {
+                    map[x][y] = 9;
+                    map[x - 1][y] = 0;
+                }
+                else if (map[x][y] == 1)
+                {
+                    x--;
+                }
+                break;
+            }
+        }
+        if (map[x][y] == 10)        // 플레이어가 종점에 도착했을 경우
+        {
+            map[x][y] = 9;
+            system("cls");
+            GameSet();
+
+            chcolor(WHITE); gotoxy(20, 10); printf("게임 끝");
+            break;
+        }
+    }
+}
+
+
 int main()
 {
-    introduce();
-    join();
-    join2();
+    char kb;
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
 
-    printf("\"%s\" 님의 회원가입이 완료되었습니다.\n\n", member->id);
-    printf("로그인을 하려면 키를 입력하시오\n");
+    GameSet();          // 게임 테두리 출력
+    StartGame();        // 게임 시작 화면 출력
 
-    _getch();
-    system("cls");
+   kb = _getch();
+   if (kb == Space)        // 입력 받은 키가 스페이스바면 화면 전환
+    {
+        system("cls");      // 화면 지우기
+        GameSet();
+        GameSelect();
+    }
 
-    login_main();
-    _getch();
-    system("cls");
+    kb = _getch();
+    if (kb == '1')      // 게임 아이디 생성 후 시작
+    {
+        RedRain();              // 빨간색 비 출력 후 화면 전환
+        system("cls");
+        GameSet();
+        introduce();
+        join();
+        join2();
+        system("cls");
+        GameSet();
+        login_main();
+        system("cls");
+        GameSet();
+        make_username();
+    }
+    else if (kb == '2')     // 이전 게임 이어서 하기
+    {
+        RedRain();          // 빨간색 비 출력 후 화면 전환
+        system("cls");
+        GameSet();
+        login_main();
+        make_username();
+    }
 
-    story();
-    _getch();
-    system("cls");
-
-    make_username();
-    _getch();
-    system("cls");
-
-    return 0;
+    kb = _getch();
+        system("cls");
+        GameSet();
+        story();
+        story2();
+        game1();
+        WalkWay();
+        moveway();
+        room();
+        kb = _getch();
+        system("cls");
+        move_miro();
+        WalkWay();
+        moveway();
+        room();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
