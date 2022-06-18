@@ -30,7 +30,7 @@ void GameSet();         // 게임 테두리
 
 // 이번에 추가한 함수들
 void room();        // 사무실
-void Qu();
+void Qu();          // 문제 푸는 함수
 
 typedef struct Quiz         // 퀴즈 구조체
 {
@@ -42,13 +42,14 @@ typedef struct Quiz         // 퀴즈 구조체
 
 void Qu()
 {
-    int input, pass = 0, cnt = 0;
+    int input, pass = 0, cnt = 0;   // input으로 정답 입력, pass로 정답 개수 확인, cnt로 현재 문제 번호 출력
 
-    int i, j;
-    int rquiz[] = { '\0' };
+    int i, j, r = 0;
+
+    int rquiz[20] = { '\0' };       // 인덱스 0 ~ 19까지 중복되지 않는 랜덤 값 저장
 
 
-    Q mun1[30] = {
+    Q mun1[30] = {                                                     // 문제를 구조체로 만듦
         {"1. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
         {"2.번문제...", "1번.. 2번.. 3번.. 4번,, 5번...", '2'},
         {"3. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
@@ -80,34 +81,28 @@ void Qu()
         {"27. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
         {"28. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
         {"29. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
-        {"30. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'},
+        {"30. 문제 ~~~", "1번.. 2번.. 3..번 4..번 5..번", '4'}
     };
 
-    srand((unsigned int)time(NULL));
+    srand((unsigned)time(NULL));
 
-    for (i = 0; i < 20; i++)
+    for (i = 0; i < 20; i++)        // 문제 순서 랜덤으로 설정
     {
-        rquiz[i] = rand() % 20;
+        again:
+        r = rand() % 30;
 
-        if (i > 1)
+        for (j = 0; j <= i - 1; j++)
         {
-            for (j = 0; j < i; j++)
-            {
-                if (rquiz[i] == rquiz[j])
-                {
-                    i--;
-                    break;
-                }
-            }
+            if (r == rquiz[j])
+                goto again;
         }
+        rquiz[i] = r;
     }
 
-    while (1)
+    i = 0;
+
+    while (1)       // 문제 풀기 시작
     {
-
-
-        i = 0;
-
         cnt++;
 
         gotoxy(20, 37); printf("%s", mun1[rquiz[i]].question);
@@ -117,18 +112,18 @@ void Qu()
 
 
         gotoxy(133, 38); printf("맞춘 개수 / 전체 개수: %d / 20", pass);
-        gotoxy(133, 40); printf("현재문제 번호 : %d", i);
+        gotoxy(133, 40); printf("현재문제 번호 : %2d", cnt);
 
         input = _getch();
         if (input == mun1[rquiz[i]].check)
             pass = pass + 1;                   // 정답 맞추면 1증가시켜줌
 
         i++;
-        if (cnt == 20)
+        if (cnt == 20)      // 문제 개수가 20개일 경우
         {
-            if (pass >= 15)
+            if (pass >= 15)     // 정답이 15개 이상이면 통과
                 break;
-            else
+            else                // 그렇지 않으면 문제 순서 랜덤 설정 다시하고, 번호, 정답 개수 초기화
             {
                 for (i = 0; i < 20; i++)
                 {
@@ -146,8 +141,9 @@ void Qu()
                         }
                     }
                 }
-
+                i = 0;
                 cnt = 0;
+                pass = 0;
             }
         }
 
