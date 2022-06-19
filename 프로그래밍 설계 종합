@@ -48,6 +48,7 @@ void gamec8();
 void gmaec9();
 void story();
 void story2();
+void story3();      // room 에서 대화 내용
 void drop();
 void intro();
 void player();          // 캐릭터 그리기
@@ -1374,6 +1375,11 @@ void room()     // 사무실 꾸미기
         chcolor(WHITE); printf("■");
     }
 
+}
+
+void story3()
+{
+
     _getch();
     chcolor(WHITE);
     gotoxy(45, 40); printf("(%s) : 똑똑똑 안녕하세요 교수님 저 (%s)입니다. 들어가도 되겠습니까??\n", member->user, member->user);
@@ -2012,6 +2018,9 @@ int main()
     WalkWay();
     moveway();
     room();
+    story3();
+    system("cls");
+    GameSet();
     Qu();
     kb = _getch();
     system("cls");
@@ -2059,5 +2068,6 @@ reset:
         cnt++;
         Sleep(100);
     } while (cnt < 300);      // 300이 채워지면 탈출
-}
 
+
+}
