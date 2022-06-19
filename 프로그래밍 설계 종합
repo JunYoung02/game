@@ -57,8 +57,16 @@ int gameover(int player, int stairs);    // 게임 오버
 void drawway();     // 복도 그리기 힘수
 void moveway();     // 복도에서 움직이는 함수
 void room();        // 사무실
+void Qu();          // 문제 푸는 함수
 void drawmap();     // 미로 그리기
 void move_miro();      // 미로에서 캐릭터 이동
+
+typedef struct Quiz         // 퀴즈 구조체
+{
+    char question[100];    // 문제 저장
+    char ex[100];          // 보기 저장
+    char check;              // 정답이 맞는지 확인
+}Q;
 
 typedef struct data {            // 아이디와 비밀번호를 담을 구조체 선언
     char id[length + 1];         // NULL을 마지막에 들어가기 때문에 +1을 한다
@@ -122,9 +130,9 @@ void StarAction(void);
 void CreateStar(void);
 
 /*   별들과 플레이어의 충돌체크하는 함수   */
-void CheckCollision(void);
+int CheckCollision(void);
 
-void game_over();
+void game_recipe();
 /*  게임의 끝을 알려줌 */
 void gotoxy(int x, int y);
 
@@ -132,27 +140,27 @@ void gotoxy(int x, int y);
 
 void gamec1() {
     chcolor(DARKGRAY);
-    gotoxy(40, 21);  printf("      $$$$$$       ");
-    gotoxy(40, 22);  printf("     $//////$               ");
+    gotoxy(40, 16);  printf("      $$$$$$       ");
+    gotoxy(40, 17);  printf("     $//////$               ");
     chcolor(WHITE);
-    gotoxy(40, 23);  printf("    (|◎  ◎|)     ");
-    gotoxy(40, 24);  printf("     ＼ ⌒  /        ");
-    gotoxy(40, 25);  printf("      ￣||￣        ");
+    gotoxy(40, 18);  printf("    (|◎  ◎|)     ");
+    gotoxy(40, 19);  printf("     ＼ ⌒  /        ");
+    gotoxy(40, 20);  printf("      ￣||￣        ");
     chcolor(SKYBLUE);
-    gotoxy(40, 26);  printf("   /￣  */￣￣|＼       ");
-    gotoxy(40, 27);  printf("  /|    /     | |      ");
-    gotoxy(40, 28);  printf(" ＼|   /*     | |        ");
-    gotoxy(40, 29);  printf("   |＼/ *     |/         ");
-    gotoxy(40, 30);  printf("   |  ＼*    /|          ");
+    gotoxy(40, 21);  printf("   /￣  */￣￣|＼       ");
+    gotoxy(40, 22);  printf("  /|    /     | |      ");
+    gotoxy(40, 23);  printf(" ＼|   /*     | |        ");
+    gotoxy(40, 24);  printf("   |＼/ *     |/         ");
+    gotoxy(40, 25);  printf("   |  ＼*    /|          ");
     chcolor(DARKGRAY);
-    gotoxy(40, 31);  printf("   |￣￣￣￣￣|                       ");
-    gotoxy(40, 32);  printf("   |    /＼   |            ");
-    gotoxy(40, 33);  printf("   |   |  |   |           ");
-    gotoxy(40, 34);  printf("   |   |  |   | ");
-    gotoxy(40, 35);  printf("   |   |  |   |             ");
-    gotoxy(40, 36);  printf("   |￣￣| |￣￣|                 ");
-    gotoxy(40, 37);  printf("   |§  ▶|§  ▶               ");
-    gotoxy(40, 38);  printf("    ￣￣   ￣￣      ");
+    gotoxy(40, 26);  printf("   |￣￣￣￣￣|                       ");
+    gotoxy(40, 27);  printf("   |    /＼   |            ");
+    gotoxy(40, 28);  printf("   |   |  |   |           ");
+    gotoxy(40, 29);  printf("   |   |  |   | ");
+    gotoxy(40, 30);  printf("   |   |  |   |             ");
+    gotoxy(40, 31);  printf("   |￣￣| |￣￣|                 ");
+    gotoxy(40, 32);  printf("   |§  ▶|§  ▶               ");
+    gotoxy(40, 33);  printf("    ￣￣   ￣￣      ");
 }
 void gamec2() {
     chcolor(DARKGRAY);
@@ -598,14 +606,10 @@ void story()
     gotoxy(70, 21); str = "2023년 4월 13일 목요일 성결대학교";
     for (int i = 0; i < strlen(str); i++)
     {
-        if (i <= 16)
+        if (i <= strlen(str))
         {
             printf("%c", *(str + i));
             Sleep(100);
-        }
-        if (i >= 17)
-        {
-            printf("%c", *(str + i));
         }
     }
     system("cls");
@@ -1030,7 +1034,6 @@ void make_username()       // 닉네임 만드는 함수
                 system("cls");
                 GameSet();
                 chcolor(WHITE);
-                gotoxy(60, 20); printf("\n이름을 \"%s\" 으로 설정하시겠습니까?(Y / N)\n", uname);
                 s = _getch();
                 if (s == 'Y' || s == 'y')
                 {
@@ -1150,18 +1153,16 @@ void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
                     way[x][y - 1] = 0;
 
                     way[x][y] = 2;
+                    system("cls");
+                    drawway();
                     chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
-                    site;
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
-                    site;
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                    chcolor(RED); gotoxy(10, 36); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+
+                    chcolor(WHITE); gotoxy(10, 38); printf("k: printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(RED); gotoxy(10, 40); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+
+                    chcolor(WHITE); gotoxy(10, 42); printf("k: 아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(RED); gotoxy(10, 44); printf("알겠어... 고마워 ");
                 }
                 else if (way[x][y] == 1)  // 이동할 수 없는 좌표
                 {
@@ -1192,21 +1193,16 @@ void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
                     way[x][y + 1] = 0;
 
                     way[x][y] = 2;
+                    system("cls");
+                    drawway();
                     chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
-                    site;
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
-                    site;
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                    chcolor(RED); gotoxy(10, 36); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
 
+                    chcolor(WHITE); gotoxy(10, 38); printf("k: printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(RED); gotoxy(10, 40); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
 
-
+                    chcolor(WHITE); gotoxy(10, 42); printf("k: 아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(RED); gotoxy(10, 44); printf("알겠어... 고마워 ");
                 }
                 else if (way[x][y] == 1)
                 {
@@ -1237,18 +1233,16 @@ void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
                     way[x + 1][y] = 0;
 
                     way[x][y] = 2;
+                    system("cls");
+                    drawway();
                     chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
-                    site;
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
-                    site;
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                    chcolor(RED); gotoxy(10, 36); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+
+                    chcolor(WHITE); gotoxy(10, 38); printf("k: printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(RED); gotoxy(10, 40); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+
+                    chcolor(WHITE); gotoxy(10, 42); printf("k: 아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(RED); gotoxy(10, 44); printf("알겠어... 고마워 ");
                 }
                 else if (way[x][y] == 1)
                 {
@@ -1274,18 +1268,16 @@ void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
                     way[x - 1][y] = 0;
 
                     way[x][y] = 2;
+                    system("cls");
+                    drawway();
                     chcolor(WHITE); gotoxy(10, 34); printf("K: 야 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야! ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
-                    _getch();
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
-                    _getch();
-                    system("cls");
-                    drawway();
-                    chcolor(WHITE); gotoxy(10, 34); printf("아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
-                    chcolor(WHITE); gotoxy(11, 34); printf("알겠어... 고마워 ");
+                    chcolor(RED); gotoxy(10, 36); printf("어...? 안녕? 너는 어떻게 여기 있는거야? ");
+
+                    chcolor(WHITE); gotoxy(10, 38); printf("k: printf(), scanf_s()부분이랑 아스키코드에 대해 잘 조사해봐 그럼 통과할 수 있을꺼야  ");
+                    chcolor(RED); gotoxy(10, 40); printf("너가 어떻게 여기 있는거냐고!! 너는 죽었잖아.... ");
+
+                    chcolor(WHITE); gotoxy(10, 42); printf("k: 아 안녕...? 문형진교수님 과목에 필요한 표준 입출력 함수, 변수와 자료형을 자료조사하면 될거야!  ");
+                    chcolor(RED); gotoxy(10, 44); printf("알겠어... 고마워 ");
                 }
                 else if (way[x][y] == 1)
                 {
@@ -1300,16 +1292,49 @@ void moveway()      // 복도에서 캐릭터가 움직이도록 만들어줌
             system("cls");
             GameSet();
 
-            chcolor(WHITE); gotoxy(20, 10); printf("게임 끝");
+            way[x - 1][y] = 0;
+            //chcolor(WHITE); gotoxy(20, 10); printf("게임 끝");
             break;
         }
     }
+    way[13][49] = 7;
+    way[13][50] = 8;
+    way[13][48] = 3;
+    way[12][49] = 3;
+    way[12][50] = 3;
+    way[13][51] = 3;
+
+    way[1][78] = 9;
+    way[2][78] = 9;
+    way[4][78] = 9;
+    way[5][78] = 9;
+    way[6][78] = 9;
+    way[7][78] = 9;
+    way[8][78] = 9;
+    way[9][78] = 9;
+    way[10][78] = 9;
+    way[11][78] = 9;
+    way[12][78] = 9;
+    way[13][78] = 9;
+    way[14][78] = 9;
+
+    way[1][77] = 0;
+    way[2][77] = 0;
+    way[4][77] = 0;
+    way[5][77] = 0;
+    way[6][77] = 0;
+    way[7][77] = 0;
+    way[8][77] = 0;
+    way[9][77] = 0;
+    way[10][77] = 0;
+    way[11][77] = 0;
+    way[12][77] = 0;
+    way[13][77] = 0;
+
+
 }
 void WalkWay()      // 복도벽에 써있는 글씨
 {
-
-
-
     chcolor(RED);      //복도 위쪽 벽
     gotoxy(35, 5);  printf("■            ■     ■■■■■■■■     ■                   ■                        ■");
     gotoxy(35, 6);  printf("■            ■     ■                   ■                   ■                      ■  ■");
@@ -1342,12 +1367,199 @@ void room()     // 사무실 꾸미기
     chcolor(WHITE);
     gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
     gamec5();
+    gamec1();
     gotoxy(5, 35);              // 문제를 출제할 공간
     for (i = 0; i < 79; i++)
     {
         chcolor(WHITE); printf("■");
     }
+
+    _getch();
+    chcolor(WHITE);
+    gotoxy(45, 40); printf("(%s) : 똑똑똑 안녕하세요 교수님 저 (%s)입니다. 들어가도 되겠습니까??\n", member->user, member->user);
+    gotoxy(45, 42); printf("(문형진 교수) - 어 그래그래 들어와라 .\n\n\n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gotoxy(5, 35);
+    for (i = 0; i < 79; i++)
+    {
+        chcolor(WHITE); printf("■");
+    }
+    gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
+    chcolor(WHITE);
+    gamec5();
+    gamec1();
+    gotoxy(25, 40); printf("(%s) : 안녕하세요 교수님 형사님께서 상담을 받고 오시라고 하셔서요 \n", member->user);
+    gotoxy(25, 42); printf("문형진 교수 : 그래 나도 들었다. 너가 생각하기에는  우리가 너무 과제를 많이 내줘서 아이들이 스트레스를 많이 받았다는거니? \n\n");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gotoxy(5, 35);
+    for (i = 0; i < 79; i++)
+    {
+        chcolor(WHITE); printf("■");
+    }
+    gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
+    chcolor(WHITE);
+    gamec5();
+    gamec1();
+    chcolor(WHITE);
+    gotoxy(5, 40); printf("(%s) : 네 이런 말씀 드리기에는 굉장히 힘들지만 애들이 많이 힘들어 했어요... 교수님들이 내는 과제를 매주 수행하려다 보니 시간이\n", member->user);
+    gotoxy(5, 41); printf("(%s) : 항상 없었다고 얘들이 말했어요.\n", member->user);
+    gotoxy(5, 43); printf("(문형진 교수) : 내가 알기로는 너가 재대로 C언어를 공부하지 않아서 아이들이 힘들다고 하는 말을 들었었는데? 그것에 대해서는 어떻게 생각하니? ");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gotoxy(5, 35);
+    for (i = 0; i < 79; i++)
+    {
+        chcolor(WHITE); printf("■");
+    }
+    gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
+    chcolor(WHITE);
+    gamec5();
+    gamec1();
+    chcolor(WHITE);
+    gotoxy(5, 40); printf("(%s) : 네? 그것은 모함이예요! 정말로 전 항상 친구들과 함께 열심히 과제를 수행했어요! ", member->user);
+    gotoxy(5, 42); printf("(문형진 교수) : 그래? 그럼 그걸 증명할 수 있겠니? 너가 만약 C언어에 대해 잘 알고 있다면 내가 상담일지에 열심히 팀플을 참여했다고 인정해주마");
+
+    _getch();
+    system("cls");
+    GameSet();
+    gotoxy(5, 35);
+    for (i = 0; i < 79; i++)
+    {
+        chcolor(WHITE); printf("■");
+    }
+    gotoxy(5, 3); printf("사무실");        // 현재 있는 장소 표시
+    chcolor(WHITE);
+    gamec5();
+    gamec1();
+    chcolor(WHITE);
+    gotoxy(5, 40); printf("(%s) : 네! 좋아요!", member->user);
+    gotoxy(5, 42); printf("(문형진 교수) : 그래 문제를 20문제 낼테니 15문제이상 맞추면 인정해주마");
 }
+
+void Qu()
+{
+    int input, pass = 0, cnt = 0;   // input으로 정답 입력, pass로 정답 개수 확인, cnt로 현재 문제 번호 출력
+
+    int i, j, r = 0;
+
+    int rquiz[20] = { '\0' };       // 인덱스 0 ~ 19까지 중복되지 않는 랜덤 값 저장
+
+
+    Q mun1[30] = {                                                     // 문제를 구조체로 만듦
+        {"문제 : 헤더 파일은 특정 작업을 수행하기 위한 ( ) 목록입니다.", "1.소스 코드  2번.선행처리기  3.주석문  4.함수  5.텍스트", '4'},
+        {"문제 : printf()함수와 scanf_s() 함수를 사용하려면 ( ) 헤더파일이 필요하다.", "1번.stdio.h  2번.stdlib.h  3번.string.h  4번.time.h  5번.conio.h", '1'},
+        {"문제 : 강제 개행 문자로 알맞은 것은?", "1.\\t  2.\\b  3.\\f  4.\\n  5.\\r", '4'},
+        {"문제 : 프로그램 소스코드에서 가장 먼저 수행해야한다는 의미를 가진 선행처리 지시자는?", "1.%  2.&  3.->  4.#  5.*", '4'},
+        {"문제 : 소스 코드에서 명령문 구간을 정의할 때 사용하는 기호는?", "1.()  2.[]  3.< > 4.{}  5.<()>", '4'},
+        {"문제 : 다음중 정수형의 출력 형식 지정자가 아닌 것은?", "1.%d  2.%o  3.%x  4.%f  5.%u", '4'},
+        {"문제 : 다음중 문자열의 출력형식 지정자로 알맞은 것은?", "1.%d  2.%f  3.%x  4.%s  5.%c", '4'},
+        {"문제 : 123.45를 %d로 출력했을 때 알맞은 값은?", "1.123.4  2.123.  3.123.45  4.123  5.123.450000", '4'},
+        {"문제 : 123.45를 %.1f로 출력했을 때 알맞은 값은?", "1.123  2.123.  3.123.45  4.123.4  5.123.40", '4'},
+        {"문제 : 123을 %05d로 출력했을 때 알맞은 값은?", "1.12300  2.01230  3.  123  4.00123  5.123", '4'},
+
+        {"문제 : scanf_s() 사용시 값을 입력 받기 위해 사용해야하는 연산자는?", "1.!  2.#  3.%  4.&  5.*", '4'},
+        {"문제 : 표준 입력 형식 지정자에서 정수형은 ( )를 사용한다.", "1.%f  2.%c  3.%s  4.%d  5.%x", '4'},
+        {"문제 : 표준 입력 형식 지정자에서 실수형은 ( )를 사용한다.", "1.%d  2.%c  3.%s  4.%f  5.%p", '4'},
+        {"문제 : 표준 입력 형식 지정자에서 문자형은 ( )를 사용한다.", "1.%d  2.%f  3.%s  4.%c  5.%o", '4'},
+        {"문제 : 표준 입력 형식 지정자에서 면자열은 ( )를 사용한다.", "1.%d  2.%f  3.%c  4.%s  5.%x", '4'},
+        {"문제 : 문자 0의 아스키코드 값은?", "1.65  2.97  3.57  4.48  5.90", '4'},
+        {"문제 : 문자 A의 아스키코드 값은?", "1.48  2.97  3.90  4.65  5.122", '4'},
+        {"문제 : 문자 a의 아스키코드 값은?", "1.48  2.65  3.90  4.97  5.89", '4'},
+        {"문제 : C언어에서 사용할 수 있는 아스키코드값의 유효 범위는?", "1.1 ~ 128  2.0 ~ 128  3.1~ 129  4.0 ~ 127  5.0~256", '4'},
+        {"문제 : a = 8.123456일 때 출력문에서 %05.2f로 선언하여 출력할 경우 결과 값은?", "1.8.12345  2.8.1234  3.8.12  4.08.12  5.08.123", '4'},
+
+        {"문제 : int a = 5로 선언할 때 변수 a에 할당디는 메모리의 크기는?", "1.2바이트  2.8바이트  3.16바이트  4.4바이트  5.32바이트", '4'},
+        {"문제 : 변수명 = 조건식 ? 식1 : 식2는 무슨 연산자인가?", "1.비트 연산자  2.시프트 연산자  3.논리 연산자  4.조건 연산자  5.관계 연산자", '4'},
+        {"문제 : 나머지를 구하는 연산자는?", "1./  2.//  3.&  4.%  5.*", '4'},
+        {"문제 : 제시한 조건의 참과 거짓 판별에 따라 서로 다른 명령을 적용하는 것은?", "1.if문  2.switch문  3.break문  4.if~else문  5.while 문", '4'},
+        {"문제 : 반복 횟수를 알고 있을 때 사용하는 반복문은?", "1.while문  2.do ~ while문  3.switch문  4.for문  5.if문", '4'},
+        {"문제 : 반복 횟수를 모를 때 사용하는 반복문은?", "1.for문  2.if ~ else문  3.switch문  4.while문  5.if문", '4'},
+        {"문제 : 반복문을 무한 루프로 정의하려면?", "1.초깃값 1선언  2.초깃값 0선언  3.증감값 0선언  4.조건식 1선언  5.조건식 0선언", '4'},
+        {"문제 : 난수 발생 함수를 사용하기 위해 가져오는 헤더 파일은?", "1.stdio.h  2.conio.h  3.math.h  4.stdlib.h  5.string.h", '4'},
+        {"문제 : double형의 자료형의 크기는?", "1.4바이트  2.16바이트  3.2바이트  4.8바이트  5.32바이트", '4'},
+        {"문제 : char형의 자료형의 크기는?", "1.2바이트  2.8바이트  3.4바이트  4.1바이트  5.16바이트", '4'},
+    };
+
+    srand((unsigned)time(NULL));
+
+    for (i = 0; i < 20; i++)        // 문제 순서 랜덤으로 설정
+    {
+    again:
+        r = rand() % 30;
+
+        for (j = 0; j <= i - 1; j++)
+        {
+            if (r == rquiz[j])
+                goto again;
+        }
+        rquiz[i] = r;
+    }
+
+    i = 0;
+
+    while (1)       // 문제 풀기 시작
+    {
+        system("cls");
+        GameSet();
+
+        chcolor(WHITE);
+        room();
+        cnt++;
+
+        gotoxy(20, 37); printf("%s", mun1[rquiz[i]].question);
+        gotoxy(22, 39); printf("%s", mun1[rquiz[i]].ex);
+
+        gotoxy(70, 45); printf("-정답은 숫자키 누르기-");
+
+
+        gotoxy(133, 38); printf("맞춘 개수 / 전체 개수: %d / 20", pass);
+        gotoxy(133, 40); printf("현재문제 번호 : %2d / 20", cnt);
+
+        input = _getch();
+        if (input == mun1[rquiz[i]].check)
+            pass = pass + 1;                   // 정답 맞추면 1증가시켜줌
+
+        i++;
+        if (cnt == 20)      // 문제 개수가 20개일 경우
+        {
+            if (pass >= 15)     // 정답이 15개 이상이면 통과
+                break;
+            else                // 그렇지 않으면 문제 순서 랜덤 설정 다시하고, 번호, 정답 개수 초기화
+            {
+                for (i = 0; i < 20; i++)
+                {
+                    rquiz[i] = rand() % 20;
+
+                    if (i > 1)
+                    {
+                        for (j = 0; j < i; j++)
+                        {
+                            if (rquiz[i] == rquiz[j])
+                            {
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+                }
+                i = 0;
+                cnt = 0;
+                pass = 0;
+            }
+        }
+
+    }
+
+}
+
 int map[45][63] =      // 미로 설정,  캐릭터 시작 위치는 9, 종점은 10.
 {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -1512,100 +1724,10 @@ void move_miro()        // 미로 게임 플레이
             map[x][y] = 9;
             system("cls");
             GameSet();
-
-            chcolor(WHITE); gotoxy(20, 10); printf("게임 끝");
             break;
         }
     }
 }
-
-
-int main()
-{
-    char kb = '\0';
-    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
-
-    GameSet();          // 게임 테두리 출력
-    StartGame();        // 게임 시작 화면 출력
-
-    kb = _getch();
-
-    if (kb == Space)        // 입력 받은 키가 스페이스바면 화면 전환
-    {
-        GameSelect();
-    }
-
-
-    kb = _getch();
-    if (kb == '1')      // 게임 아이디 생성 후 시작
-    {
-        RedRain();              // 빨간색 비 출력 후 화면 전환
-        system("cls");
-        GameSet();
-        introduce();
-        join();
-        join2();
-        system("cls");
-        GameSet();
-        login_main();
-        system("cls");
-        GameSet();
-        make_username();
-    }
-    else if (kb == '2')     // 이전 게임 이어서 하기
-    {
-        RedRain();          // 빨간색 비 출력 후 화면 전환
-        GameSet();
-        login_main();
-        make_username();
-    }
-
-    kb = _getch();
-    system("cls");
-    GameSet();
-    story();
-    story2();
-    game1();
-    WalkWay();
-    moveway();
-    room();
-    kb = _getch();
-    system("cls");
-    move_miro();
-    WalkWay();
-    moveway();
-    room();
-    Initial();
-
-    InitObject();   //   오브젝트들의 정보를 초기화
-
-    ClearScreen();   //   콘솔 화면 창을 지우고
-
-    srand((unsigned)time(NULL));
-    int cnt = 0;
-    do
-    {
-        /* 10퍼센트 확률로 별 하나 생성 */
-        if (rand() % 100 < 10)
-            CreateStar();
-
-        StarAction();   //   생성된 별을 아래로 이동
-
-        PlayerAction();   //   PlayerAction() 함수 호출
-
-        CheckCollision();   //   플레이어와 별들의 충돌체크 함수 호출
-
-        Block();      //   Block() 함수 호출
-
-        Clear();      //   이차원 배열의 내용을 지우고
-
-        Draw();         //   이차원 배열에 오브젝트들을 배열에 담고 렌더((그린다.)
-        cnt++;
-        Sleep(100);
-    } while (cnt < 300);      // 300이 채워지면 탈출
-}
-
-
 void Draw(void)
 {
     int i;
@@ -1789,8 +1911,9 @@ void CreateStar(void)
 }
 
 /*   별들과 플레이어의 충돌체크하는 함수   */
-void CheckCollision(void)
+int CheckCollision(void)
 {
+    char kb = '\0';
     int i;
     int leftPosX = g_Player.x - P_COUNT / 2;
     int rightPosX = g_Player.x + P_COUNT / 2;
@@ -1808,15 +1931,133 @@ void CheckCollision(void)
             if (g_Star[i].y == g_Player.y)
             {
                 g_Star[i].LiveFlag = 0;   //   별을 죽은 것으로 처리
-                game_over();
+                system("cls");
+                gotoxy(20, 20);
+                printf("별에 맞았습니다. 게임을 다시 시작합니다.\n");
+                kb = _getch();
+                
+                system("cls");
+                return 2;
+                
             }
         }
     }
 }
 
-void game_over()
+void game_recipe()
 {
-    gotoxy(10, 10);
-    printf("별에 맞았습니다. 게임을 종료합니다.\n");
-    exit(1);
+    char kb = "\0";
+    GameSet();
+    chcolor(WHITE);
+    gotoxy(25, 20); printf("$ X 피하기! $");
+    gotoxy(20, 22); printf("게임 방법 : x가 200이 될 때 까지 피해라");
+
+    kb = _getch();
+    if (kb == Space)
+    {
+        system("cls");
+        return 2;
+    }
+    system("cls");
 }
+
+int main()
+{
+    int key = 0;                             //별 피하기 죽었을 경우 다시 돌아가기 위한 키
+    char kb = '\0';
+    system("mode con cols=170 lines=50");    //cols = 칸/행 (가로)  lines = 줄/열 (세로)
+    GameSet();          // 게임 테두리 출력
+    StartGame();        // 게임 시작 화면 출력
+    
+    
+    kb = _getch();
+    system("cls");
+    if (kb == Space)        // 입력 받은 키가 스페이스바면 화면 전환
+    {
+        GameSet();
+        GameSelect();
+    }
+
+
+    kb = _getch();
+    if (kb == '1')      // 게임 아이디 생성 후 시작
+    {
+        RedRain();              // 빨간색 비 출력 후 화면 전환
+        system("cls");
+        GameSet();
+        introduce();
+        join();
+        join2();
+        system("cls");
+        GameSet();
+        login_main();
+        system("cls");
+        GameSet();
+        make_username();
+    }
+    else if (kb == '2')     // 이전 게임 이어서 하기
+    {
+        RedRain();          // 빨간색 비 출력 후 화면 전환
+        GameSet();
+        login_main();
+        make_username();
+    }
+    
+    kb = _getch();
+    system("cls");
+    GameSet();
+    story();
+    story2();
+    game1();
+    WalkWay();
+    moveway();
+    room();
+    Qu();
+    kb = _getch();
+    system("cls");
+    move_miro();
+    WalkWay();
+    
+    moveway();
+    
+    kb = _getch();
+    system("cls");
+
+reset:
+    game_recipe();
+
+    Initial();
+
+    InitObject();   //   오브젝트들의 정보를 초기화
+    
+    ClearScreen();   //   콘솔 화면 창을 지우고
+
+    srand((unsigned)time(NULL));
+    int cnt = 0;
+    do
+    {
+        gotoxy(120, 20); printf("별 : %d", cnt);
+        /* 10퍼센트 확률로 별 하나 생성 */
+        if (rand() % 100 < 99.9999)
+            CreateStar();
+
+        StarAction();   //   생성된 별을 아래로 이동
+
+        PlayerAction();   //   PlayerAction() 함수 호출
+
+        key = CheckCollision();   //   플레이어와 별들의 충돌체크 함수 호출
+        if (key == 2)
+        {
+            cnt = 0;
+            goto reset;
+        }
+        Block();      //   Block() 함수 호출
+
+        Clear();      //   이차원 배열의 내용을 지우고
+
+        Draw();         //   이차원 배열에 오브젝트들을 배열에 담고 렌더((그린다.)
+        cnt++;
+        Sleep(100);
+    } while (cnt < 300);      // 300이 채워지면 탈출
+}
+
